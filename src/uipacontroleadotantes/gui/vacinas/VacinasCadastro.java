@@ -5,7 +5,6 @@
  */
 package uipacontroleadotantes.gui.vacinas;
 
-import uipacontroleadotantes.gui.adotantes.*;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -14,9 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean;
-import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
+import uipacontroleadotantes.banco.vacinas.VacinasBean;
+import uipacontroleadotantes.banco.vacinas.VacinasDAO;
 
 /**
  *
@@ -25,15 +25,15 @@ import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
 public class VacinasCadastro extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form AdotantesCadastro
+     * Creates new form VacinasCadastro
      */
-    AdotantesTableModel model = new AdotantesTableModel();
+    VacinasTableModel model = new VacinasTableModel();
 
     public VacinasCadastro() {
         initComponents();
         limparCampos();
         setFrameIcon(new ImageIcon(this.getClass().getResource("/uipacontroleadotantes/assets/seringa-24x24.png")));
-        tblAnimais.setModel(model);
+        tblVacinas.setModel(model);
         preencherTable();
     }
 
@@ -51,7 +51,7 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtDescricao = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
@@ -59,7 +59,7 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
         btnPesquisar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblAnimais = new javax.swing.JTable();
+        tblVacinas = new javax.swing.JTable();
 
         setClosable(true);
         setTitle("Cadastro de Vacinas");
@@ -81,10 +81,10 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Descrição:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jScrollPane2.setViewportView(jTextArea1);
+        txtDescricao.setColumns(20);
+        txtDescricao.setRows(5);
+        txtDescricao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        jScrollPane2.setViewportView(txtDescricao);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -209,7 +209,7 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        tblAnimais.setModel(new javax.swing.table.DefaultTableModel(
+        tblVacinas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -220,12 +220,12 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
 
             }
         ));
-        tblAnimais.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblVacinas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblAnimaisMouseClicked(evt);
+                tblVacinasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblAnimais);
+        jScrollPane1.setViewportView(tblVacinas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -259,151 +259,93 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-//        if (verificarCamposObrigatorios()) {
-//            AdotantesBean adotanteBean = new AdotantesBean();
-//            adotanteBean.setNome(txtNome.getText());
-//            adotanteBean.setTelefone(txtTelefone.getText());
-//            adotanteBean.setCelular(txtCelular.getText());
-//            adotanteBean.setEndereco(txtIdade.getText());
-//            adotanteBean.setBairro(txtBairro.getText());
-//            adotanteBean.setCidade(txtCidade.getText());
-//            if (cbEspecie.getSelectedIndex() > 0) {
-//                adotanteBean.setUF(cbEspecie.getSelectedItem().toString().split(" - ")[0]);
-//            }
-//            adotanteBean.setCPF(txtCPF.getText());
-//            adotanteBean.setRG(txtRG.getText());
-//            if (cbSexo.getSelectedIndex() > 0) {
-//                char[] sexo = cbSexo.getSelectedItem().toString().split("")[0].toCharArray();
-//                adotanteBean.setSexo(sexo);
-//            }
-//            adotanteBean.setEmail(txtEmail.getText());
-//
-//            AdotantesDAO adotantesDAO = new AdotantesDAO();
-//
-//            try {
-//                int codAdotante = adotantesDAO.inserir(adotanteBean);
-//                adotanteBean.setCodAdotante(codAdotante);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            limparCampos();
-//            model.addRow(adotanteBean);
-//        }
+        if (verificarCamposObrigatorios()) {
+            VacinasBean vacinaBean = new VacinasBean();
+            vacinaBean.setNome(txtNome.getText());
+            vacinaBean.setDescricao(txtDescricao.getText());
+
+            VacinasDAO vacinasDAO = new VacinasDAO();
+
+            try {
+                int codVacina = vacinasDAO.inserir(vacinaBean);
+                vacinaBean.setCodVacina(codVacina);
+            } catch (SQLException ex) {
+                Logger.getLogger(VacinasCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            limparCampos();
+            model.addRow(vacinaBean);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         preencherTable();
     }//GEN-LAST:event_formComponentShown
 
-    private void tblAnimaisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAnimaisMouseClicked
-//        if (evt.getClickCount() == 2) {
-//            int linha = tblAdotantes.getSelectedRow();
-//            limparCampos();
-//            txtNome.setText(tblAdotantes.getValueAt(linha, 1).toString());
-//            txtTelefone.setText(tblAdotantes.getValueAt(linha, 2).toString());
-//            txtCelular.setText(tblAdotantes.getValueAt(linha, 3).toString());
-//            txtIdade.setText(tblAdotantes.getValueAt(linha, 4).toString());
-//            txtBairro.setText(tblAdotantes.getValueAt(linha, 5).toString());
-//            txtCidade.setText(tblAdotantes.getValueAt(linha, 6).toString());
-//            if (tblAdotantes.getValueAt(linha, 7) != null) {
-//                for (int i = 0; i < cbEspecie.getItemCount(); i++) {
-//                    if (cbEspecie.getItemAt(i).split(" - ")[0].equals(tblAdotantes.getValueAt(linha, 7).toString())) {
-//                        cbEspecie.setSelectedIndex(i);
-//                    }
-//                }
-//            }
-//            txtCPF.setText(tblAdotantes.getValueAt(linha, 8).toString());
-//            txtRG.setText(tblAdotantes.getValueAt(linha, 9).toString());
-//            if (tblAdotantes.getValueAt(linha, 10) != null) {
-//                for (int i = 0; i < cbSexo.getItemCount(); i++) {
-//                    if (cbSexo.getItemAt(i).split(" - ")[0].equals(tblAdotantes.getValueAt(linha, 10).toString())) {
-//                        cbSexo.setSelectedIndex(i);
-//                    }
-//                }
-//            }
-//            txtEmail.setText(tblAdotantes.getValueAt(linha, 11).toString());
-//            txtNome.requestFocus();
-//            btnAtualizar.setEnabled(true);
-//            btnExcluir.setEnabled(true);
-//            btnCadastrar.setEnabled(false);
-//        }
-    }//GEN-LAST:event_tblAnimaisMouseClicked
+    private void tblVacinasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVacinasMouseClicked
+        if (evt.getClickCount() == 2) {
+            int linha = tblVacinas.getSelectedRow();
+            limparCampos();
+            txtNome.setText(tblVacinas.getValueAt(linha, 1).toString());
+            txtDescricao.setText(tblVacinas.getValueAt(linha, 2).toString());
+            txtNome.requestFocus();
+            btnAtualizar.setEnabled(true);
+            btnExcluir.setEnabled(true);
+            btnCadastrar.setEnabled(false);
+        }
+    }//GEN-LAST:event_tblVacinasMouseClicked
 
     private void txtNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyReleased
         txtNome.setText(txtNome.getText().toUpperCase());
     }//GEN-LAST:event_txtNomeKeyReleased
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
-//        if (verificarCamposObrigatorios()) {
-//            AdotantesBean adotanteBean = new AdotantesBean();
-//            int linha = tblAdotantes.getSelectedRow();
-//            if (linha < 0) {
-//                return;
-//            }
-//            int codAdotante = Integer.parseInt(tblAdotantes.getValueAt(linha, 0).toString());
-//            adotanteBean.setCodAdotante(codAdotante);
-//            adotanteBean.setNome(txtNome.getText());
-//            adotanteBean.setTelefone(txtTelefone.getText());
-//            adotanteBean.setCelular(txtCelular.getText());
-//            adotanteBean.setEndereco(txtIdade.getText());
-//            adotanteBean.setBairro(txtBairro.getText());
-//            adotanteBean.setCidade(txtCidade.getText());
-//            if (cbEspecie.getSelectedIndex() > 0) {
-//                adotanteBean.setUF(cbEspecie.getSelectedItem().toString().split(" - ")[0]);
-//            }
-//            adotanteBean.setCPF(txtCPF.getText());
-//            adotanteBean.setRG(txtRG.getText());
-//            if (cbSexo.getSelectedIndex() > 0) {
-//                char[] sexo = cbSexo.getSelectedItem().toString().split("")[0].toCharArray();
-//                adotanteBean.setSexo(sexo);
-//            }
-//            adotanteBean.setEmail(txtEmail.getText());
-//
-//            AdotantesDAO adotantesDAO = new AdotantesDAO();
-//
-//            try {
-//                adotantesDAO.alterar(adotanteBean);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            model.setValueAt(String.valueOf(codAdotante), linha, 0);
-//            model.setValueAt(txtNome.getText(), linha, 1);
-//            model.setValueAt(txtTelefone.getText(), linha, 2);
-//            model.setValueAt(txtCelular.getText(), linha, 3);
-//            model.setValueAt(txtIdade.getText(), linha, 4);
-//            model.setValueAt(txtBairro.getText(), linha, 5);
-//            model.setValueAt(txtCidade.getText(), linha, 6);
-//            model.setValueAt(cbEspecie.getSelectedItem().toString().split(" - ")[0], linha, 7);
-//            model.setValueAt(txtCPF.getText(), linha, 8);
-//            model.setValueAt(txtRG.getText(), linha, 9);
-//            model.setValueAt(cbSexo.getSelectedItem().toString().split(" - ")[0], linha, 10);
-//            model.setValueAt(txtEmail.getText(), linha, 11);
-//
-//            limparCampos();
-//        }
+        if (verificarCamposObrigatorios()) {
+            VacinasBean vacinaBean = new VacinasBean();
+            int linha = tblVacinas.getSelectedRow();
+            if (linha < 0) {
+                return;
+            }
+            int codVacina = Integer.parseInt(tblVacinas.getValueAt(linha, 0).toString());
+            vacinaBean.setCodVacina(codVacina);
+            vacinaBean.setNome(txtNome.getText());
+            vacinaBean.setDescricao(txtDescricao.getText());
+
+            VacinasDAO vacinasDAO = new VacinasDAO();
+
+            try {
+                vacinasDAO.alterar(vacinaBean);
+            } catch (SQLException ex) {
+                Logger.getLogger(VacinasCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            model.setValueAt(String.valueOf(codVacina), linha, 0);
+            model.setValueAt(txtNome.getText(), linha, 1);
+            model.setValueAt(txtDescricao.getText(), linha, 2);
+
+            limparCampos();
+        }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        AdotantesDAO adotantesDAO = new AdotantesDAO();
+        VacinasDAO vacinasDAO = new VacinasDAO();
         limparModel();
         if (!txtNome.getText().equals("")) {
-            adotantesDAO.pesquisarPorNome(txtNome.getText()).forEach((adotantes) -> {
-                model.addRow(adotantes);
+            vacinasDAO.pesquisarPorNome(txtNome.getText()).forEach((vacinas) -> {
+                model.addRow(vacinas);
             });
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int linha = tblAnimais.getSelectedRow();
-        int codAdotante = Integer.parseInt(tblAnimais.getValueAt(linha, 0).toString());
-        String nome = tblAnimais.getValueAt(linha, 1).toString();
-        if (codAdotante > 0) {
+        int linha = tblVacinas.getSelectedRow();
+        int codVacina = Integer.parseInt(tblVacinas.getValueAt(linha, 0).toString());
+        String nome = tblVacinas.getValueAt(linha, 1).toString();
+        if (codVacina > 0) {
             int permissao = JOptionPane.showConfirmDialog(null, "TEM CERTEZA QUE DESEJA APAGAR A VACINA " + nome + "?", "EXCLUIR?", JOptionPane.YES_NO_OPTION);
             if (permissao == 0) {
-                AdotantesDAO adotantesDAO = new AdotantesDAO();
+                VacinasDAO vacinasDAO = new VacinasDAO();
                 try {
-                    adotantesDAO.excluir(codAdotante);
+                    vacinasDAO.excluir(codVacina);
                     model.removeRow(linha);
                 } catch (SQLException ex) {
                     Logger.getLogger(VacinasCadastro.class.getName()).log(Level.SEVERE, null, ex);
@@ -426,8 +368,8 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTable tblAnimais;
+    private javax.swing.JTable tblVacinas;
+    private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 
@@ -443,6 +385,7 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
             if (c instanceof JComboBox) {
                 ((JComboBox) c).setSelectedIndex(0);
             }
+            txtDescricao.setText("");
         }
         btnCadastrar.setEnabled(true);
         btnAtualizar.setEnabled(false);
@@ -450,50 +393,25 @@ public class VacinasCadastro extends javax.swing.JInternalFrame {
     }
 
     private boolean verificarCamposObrigatorios() {
-//        if (txtNome.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO NOME VAZIO.");
-//            txtNome.requestFocus();
-//            return false;
-//        }
-//        if (txtIdade.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO ENDEREÇO VAZIO.");
-//            txtIdade.requestFocus();
-//            return false;
-//        }
-//        if (txtBairro.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO BAIRRO VAZIO.");
-//            txtBairro.requestFocus();
-//            return false;
-//        }
-//        if (txtCidade.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO CIDADE VAZIO.");
-//            txtCidade.requestFocus();
-//            return false;
-//        }
-//        if (cbEspecie.getSelectedIndex() < 1) {
-//            JOptionPane.showMessageDialog(null, "CAMPO ESTADO VAZIO.");
-//            cbEspecie.requestFocus();
-//            return false;
-//        }
-//        if (txtRG.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO RG VAZIO.");
-//            txtRG.requestFocus();
-//            return false;
-//        }
-//        if (txtCPF.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO CPF VAZIO.");
-//            txtCPF.requestFocus();
-//            return false;
-//        }
+        if (txtNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "CAMPO NOME VAZIO.");
+            txtNome.requestFocus();
+            return false;
+        }
+        if (txtDescricao.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "CAMPO DESCRIÇÃO VAZIO.");
+            txtDescricao.requestFocus();
+            return false;
+        }
         return true;
     }
 
     private void preencherTable() {
-        AdotantesDAO adotantesDAO = new AdotantesDAO();
+        VacinasDAO vacinasDao = new VacinasDAO();
         limparModel();
         try {
-            for (AdotantesBean cliente : adotantesDAO.listarTodos()) {
-                model.addRow(cliente);
+            for (VacinasBean vacinasBean : vacinasDao.listarTodos()) {
+                model.addRow(vacinasBean);
             }
         } catch (SQLException ex) {
             Logger.getLogger(VacinasCadastro.class.getName()).log(Level.SEVERE, null, ex);
