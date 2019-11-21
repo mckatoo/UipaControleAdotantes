@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uipacontroleadotantes.gui.animais;
+package uipacontroleadotantes.gui.vacinas;
 
 import uipacontroleadotantes.gui.adotantes.*;
 import java.awt.Component;
@@ -15,8 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesBean;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesDAO;
+import uipacontroleadotantes.banco.adotantes.AdotantesBean;
+import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
 
 /**
  *

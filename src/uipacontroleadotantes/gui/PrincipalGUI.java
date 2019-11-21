@@ -8,7 +8,7 @@ package uipacontroleadotantes.gui;
 import javax.swing.JInternalFrame;
 import uipacontroleadotantes.gui.adotantes.AdotantesCadastro;
 import uipacontroleadotantes.gui.animais.AnimaisCadastro;
-import uipacontroleadotantes.gui.animais.VacinasCadastro;
+import uipacontroleadotantes.gui.vacinas.VacinasCadastro;
 import uipacontroleadotantes.gui.usuarios.UsuariosCadastro;
 
 /**

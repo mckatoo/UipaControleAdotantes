@@ -6,10 +6,8 @@
 package uipacontroleadotantes.gui.animais;
 
 import uipacontroleadotantes.gui.adotantes.*;
-import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -17,9 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesBean;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesDAO;
-import uipacontroleadotantes.uteis.Validador;
+import uipacontroleadotantes.banco.adotantes.AdotantesBean;
+import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
 
 /**
  *
@@ -35,7 +32,7 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     public AnimaisCadastro() {
         initComponents();
         limparCampos();
-        setFrameIcon(new ImageIcon(this.getClass().getResource("/uipacontroleadotantes/assets/team-24x24.png")));
+        setFrameIcon(new ImageIcon(this.getClass().getResource("/uipacontroleadotantes/assets/cao-24x24.png")));
         tblAnimais.setModel(model);
         preencherTable();
     }

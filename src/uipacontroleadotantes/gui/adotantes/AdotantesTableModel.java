@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesBean;
+import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 
 /**
  *

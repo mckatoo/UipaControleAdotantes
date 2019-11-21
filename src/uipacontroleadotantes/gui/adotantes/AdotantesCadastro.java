@@ -8,7 +8,6 @@ package uipacontroleadotantes.gui.adotantes;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -16,8 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesBean;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesDAO;
+import uipacontroleadotantes.banco.adotantes.AdotantesBean;
+import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
 import uipacontroleadotantes.uteis.Validador;
 
 /**

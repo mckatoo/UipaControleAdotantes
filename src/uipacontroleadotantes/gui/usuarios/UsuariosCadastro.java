@@ -15,8 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesBean;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean.AdotantesDAO;
 import uipacontroleadotantes.banco.usuarios.UsuariosBean;
 import uipacontroleadotantes.banco.usuarios.UsuariosDAO;
 import uipacontroleadotantes.uteis.Sanitize;

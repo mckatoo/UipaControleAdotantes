@@ -1,4 +1,4 @@
-package uipacontroleadotantes.banco.adotantes.AdotantesBean;
+package uipacontroleadotantes.banco.adotantes;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
