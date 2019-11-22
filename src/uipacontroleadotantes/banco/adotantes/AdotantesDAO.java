@@ -133,18 +133,17 @@ public class AdotantesDAO {
         return null;
     }
 
-    public List<AdotantesBean> pesquisarPorCodigo(String CodAdotante) {
+    public AdotantesBean pesquisarPorCodigo(String CodAdotante) {
         Connection con = Conexao.abrirConexao();
         String sql = "select * from adotante where CodAdotante = ?";
         ResultSet rs = null;
-        List<AdotantesBean> listaAdotantes = new ArrayList<>();
+        AdotantesBean adotantesBean = new AdotantesBean();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, CodAdotante);
             rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
-                    AdotantesBean adotantesBean = new AdotantesBean();
                     adotantesBean.setCodAdotante(rs.getInt("CodAdotante"));
                     adotantesBean.setNome(rs.getString("Nome"));
                     adotantesBean.setTelefone(rs.getString("Telefone"));
@@ -157,10 +156,9 @@ public class AdotantesDAO {
                     adotantesBean.setRG(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
-                    listaAdotantes.add(adotantesBean);
                 }
                 System.out.println("Localizado com sucesso!");
-                return listaAdotantes;
+                return adotantesBean;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -169,8 +167,8 @@ public class AdotantesDAO {
         }
         return null;
     }
-    
-     public List<AdotantesBean> pesquisarPorNome(String nome) {
+
+    public List<AdotantesBean> pesquisarPorNome(String nome) {
         Connection con = Conexao.abrirConexao();
         String sql = "select * from adotante where Nome like ?";
         ResultSet rs = null;

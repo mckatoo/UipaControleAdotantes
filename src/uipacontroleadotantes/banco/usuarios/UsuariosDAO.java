@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import uipacontroleadotantes.banco.Conexao;
@@ -19,7 +22,7 @@ public class UsuariosDAO {
 
     public int inserir(UsuariosBean usuarios) throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "insert into usuarios(login, senha)values(?,?)";
+        String sql = "insert into usuario(login, senha)values(?,?)";
         ResultSet rs;
         int id = 0;
 
@@ -44,7 +47,7 @@ public class UsuariosDAO {
 
     public void alterarSenha(UsuariosBean usuarios) throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "update usuarios set senha = ?";
+        String sql = "update usuario set senha = ?";
         sql += " where codUsuario = ?";
 
         try {
@@ -63,7 +66,7 @@ public class UsuariosDAO {
 
     public String excluir(int codUsuario) throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "delete from usuarios where codUsuario = ?";
+        String sql = "delete from usuario where codUsuario = ?";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, String.valueOf(codUsuario));
@@ -80,7 +83,7 @@ public class UsuariosDAO {
 
     public List<UsuariosBean> listarTodos() throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from usuarios ";
+        String sql = "select * from usuario ";
         ResultSet rs = null;
         List<UsuariosBean> listaUsuarios = new ArrayList<>();
         try {
@@ -106,7 +109,7 @@ public class UsuariosDAO {
 
     public List<UsuariosBean> listarUsuarios(String nome) {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from usuarios where nome like ?";
+        String sql = "select * from usuario where nome like ?";
         ResultSet rs = null;
         List<UsuariosBean> listaUsuarios = new ArrayList<>();
         try {
@@ -131,25 +134,23 @@ public class UsuariosDAO {
         return null;
     }
 
-    public List<UsuariosBean> pesquisarPorCodigo(String codUsuario) {
+    public UsuariosBean pesquisarPorCodigo(String codUsuario) {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from usuarios where codUsuario = ?";
+        String sql = "select * from usuario where codUsuario = ?";
         ResultSet rs = null;
-        List<UsuariosBean> listaUsuarios = new ArrayList<>();
+        UsuariosBean usuario = new UsuariosBean();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, codUsuario);
             rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
-                    UsuariosBean cb = new UsuariosBean();
-                    cb.setCodUsuario(rs.getInt("codUsuario"));
-                    cb.setLogin(rs.getString("login"));
-                    cb.setSenha(rs.getString("senha"));
-                    listaUsuarios.add(cb);
+                    usuario.setCodUsuario(rs.getInt("codUsuario"));
+                    usuario.setLogin(rs.getString("login"));
+                    usuario.setSenha(rs.getString("senha"));
                 }
                 System.out.println("Localizado com sucesso!");
-                return listaUsuarios;
+                return usuario;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -161,7 +162,7 @@ public class UsuariosDAO {
 
     public UsuariosBean pesquisarPorUsuario(String login) {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from usuarios where login = ?";
+        String sql = "select * from usuario where login = ?";
         ResultSet rs = null;
         UsuariosBean usuario = new UsuariosBean();
         try {
@@ -187,6 +188,10 @@ public class UsuariosDAO {
 
     public boolean login(String login, String senha) {
         UsuariosBean usuario = pesquisarPorUsuario(login);
+        String agora = LocalDateTime.now().toString();
+        String data = agora.split("T")[0];
+        String hora = agora.split("T")[1].split(".")[0];
+        System.out.println(data + " - " + hora + ": " + usuario.getLogin() + " entrou no sistema.");
         if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
             return true;
         }
