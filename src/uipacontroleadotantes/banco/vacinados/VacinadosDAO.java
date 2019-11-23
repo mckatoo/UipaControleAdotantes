@@ -1,6 +1,5 @@
 package uipacontroleadotantes.banco.vacinados;
 
-import uipacontroleadotantes.banco.adotantes.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import uipacontroleadotantes.banco.Conexao;
-import uipacontroleadotantes.uteis.Sanitize;
 
 /**
  * AdotantesDAO

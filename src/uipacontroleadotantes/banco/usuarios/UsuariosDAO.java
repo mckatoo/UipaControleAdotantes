@@ -190,7 +190,7 @@ public class UsuariosDAO {
         UsuariosBean usuario = pesquisarPorUsuario(login);
         String agora = LocalDateTime.now().toString();
         String data = agora.split("T")[0];
-        String hora = agora.split("T")[1].split(".")[0];
+        String hora = agora.split("T")[1];
         System.out.println(data + " - " + hora + ": " + usuario.getLogin() + " entrou no sistema.");
         if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
             return true;
