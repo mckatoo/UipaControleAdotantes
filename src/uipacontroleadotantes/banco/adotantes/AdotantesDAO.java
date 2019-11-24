@@ -31,9 +31,9 @@ public class AdotantesDAO {
             ps.setString(4, adotante.getEndereco());
             ps.setString(5, adotante.getBairro());
             ps.setString(6, adotante.getCidade());
-            ps.setString(7, adotante.getUF());
-            ps.setString(8, adotante.getCPF());
-            ps.setString(9, adotante.getRG());
+            ps.setString(7, adotante.getUf());
+            ps.setString(8, adotante.getCpf());
+            ps.setString(9, adotante.getRg());
             ps.setString(10, Sanitize.sanitizar(adotante.getSexo()));
             ps.setString(11, adotante.getEmail());
             if (ps.executeUpdate() > 0) {
@@ -64,9 +64,9 @@ public class AdotantesDAO {
             ps.setString(4, adotante.getEndereco());
             ps.setString(5, adotante.getBairro());
             ps.setString(6, adotante.getCidade());
-            ps.setString(7, adotante.getUF());
-            ps.setString(8, adotante.getCPF());
-            ps.setString(9, adotante.getRG());
+            ps.setString(7, adotante.getUf());
+            ps.setString(8, adotante.getCpf());
+            ps.setString(9, adotante.getRg());
             ps.setString(10, Sanitize.sanitizar(adotante.getSexo()));
             ps.setString(11, adotante.getEmail());
             ps.setString(12, Integer.toString(adotante.getCodAdotante()));
@@ -115,9 +115,9 @@ public class AdotantesDAO {
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setUF(rs.getString("UF"));
-                    adotantesBean.setCPF(rs.getString("CPF"));
-                    adotantesBean.setRG(rs.getString("RG"));
+                    adotantesBean.setUf(rs.getString("UF"));
+                    adotantesBean.setCpf(rs.getString("CPF"));
+                    adotantesBean.setRg(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
                     listaAdotantes.add(adotantesBean);
@@ -151,9 +151,9 @@ public class AdotantesDAO {
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setUF(rs.getString("UF"));
-                    adotantesBean.setCPF(rs.getString("CPF"));
-                    adotantesBean.setRG(rs.getString("RG"));
+                    adotantesBean.setUf(rs.getString("UF"));
+                    adotantesBean.setCpf(rs.getString("CPF"));
+                    adotantesBean.setRg(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
                 }
@@ -187,9 +187,9 @@ public class AdotantesDAO {
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setUF(rs.getString("UF"));
-                    adotantesBean.setCPF(rs.getString("CPF"));
-                    adotantesBean.setRG(rs.getString("RG"));
+                    adotantesBean.setUf(rs.getString("UF"));
+                    adotantesBean.setCpf(rs.getString("CPF"));
+                    adotantesBean.setRg(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
                     listaAdotantes.add(adotantesBean);

@@ -53,11 +53,11 @@ public class AnimaisTableModel extends AbstractTableModel {
             case 6:
                 return dados.get(rowIndex).getCidade();
             case 7:
-                return dados.get(rowIndex).getUF();
+                return dados.get(rowIndex).getUf();
             case 8:
-                return dados.get(rowIndex).getCPF();
+                return dados.get(rowIndex).getCpf();
             case 9:
-                return dados.get(rowIndex).getRG();
+                return dados.get(rowIndex).getRg();
             case 10:
                 return "" + Arrays.toString(dados.get(rowIndex).getSexo()).charAt(1);
             case 11:
@@ -91,13 +91,6 @@ public class AnimaisTableModel extends AbstractTableModel {
                 dados.get(rowIndex).setCidade((String) aValue);
                 break;
             case 7:
-                dados.get(rowIndex).setUF((String) aValue);
-                break;
-            case 8:
-                dados.get(rowIndex).setCPF((String) aValue);
-                break;
-            case 9:
-                dados.get(rowIndex).setRG((String) aValue);
                 break;
             case 10: 
                 dados.get(rowIndex).setSexo(((String) aValue).toCharArray());

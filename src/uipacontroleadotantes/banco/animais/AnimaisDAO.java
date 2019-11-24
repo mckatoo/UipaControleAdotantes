@@ -94,7 +94,7 @@ public class AnimaisDAO {
 
     public List<AdotantesBean> listarTodos() throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from adotante ";
+        String sql = "select * from animais ";
         ResultSet rs = null;
         List<AdotantesBean> listaAdotantes = new ArrayList<>();
         try {
@@ -110,9 +110,6 @@ public class AnimaisDAO {
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setUF(rs.getString("UF"));
-                    adotantesBean.setCPF(rs.getString("CPF"));
-                    adotantesBean.setRG(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
                     listaAdotantes.add(adotantesBean);
@@ -147,9 +144,6 @@ public class AnimaisDAO {
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setUF(rs.getString("UF"));
-                    adotantesBean.setCPF(rs.getString("CPF"));
-                    adotantesBean.setRG(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
                     listaAdotantes.add(adotantesBean);
@@ -184,9 +178,6 @@ public class AnimaisDAO {
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setUF(rs.getString("UF"));
-                    adotantesBean.setCPF(rs.getString("CPF"));
-                    adotantesBean.setRG(rs.getString("RG"));
                     adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
                     adotantesBean.setEmail(rs.getString("Email"));
                     listaAdotantes.add(adotantesBean);

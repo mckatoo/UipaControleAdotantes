@@ -6,7 +6,14 @@
 package uipacontroleadotantes.gui;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import uipacontroleadotantes.banco.usuarios.UsuariosDAO;
 import uipacontroleadotantes.uteis.Sanitize;
@@ -160,15 +167,53 @@ public class LoginGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+        this.dispose();
+
+        Loading loading = new Loading();
+        PrincipalGUI principal = new PrincipalGUI();
+        LoginGUI loginGUI = this;
+        Point p = this.getLocation();
         UsuariosDAO usuariosDAO = new UsuariosDAO();
         String senha = Sanitize.sanitizar(txtSenha.getPassword());
         String senhaCriptografada = Seguranca.criptografar(senha);
-        boolean permitido = usuariosDAO.login(txtUsuario.getText(), senhaCriptografada);
+        Future<Boolean> future = usuariosDAO.login(txtUsuario.getText(), senhaCriptografada);
+        Boolean permitido = false;
+        try {
+            permitido = future.get(1, TimeUnit.MINUTES);
+        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
         if (permitido) {
-            PrincipalGUI principal = new PrincipalGUI();
-            principal.setVisible(true);
-            this.dispose();
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        loading.setVisible(true);
+                        sleep(2000);
+                        loading.dispose();
+                        principal.setVisible(true);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
         } else {
+            loginGUI.setVisible(true);
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        for (int i = 0; i < 3; i++) {
+                            loginGUI.setLocation(p.x - 10, p.y);
+                            sleep(20);
+                            loginGUI.setLocation(p.x + 10, p.y);
+                            sleep(20);
+                        }
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
             JOptionPane.showMessageDialog(null, "USUÁRIO OU SENHA INVÁLIDOS!");
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
@@ -184,7 +229,7 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaKeyReleased
 
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
-        
+
     }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void txtUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyReleased

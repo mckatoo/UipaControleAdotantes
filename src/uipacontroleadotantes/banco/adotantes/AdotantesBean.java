@@ -5,8 +5,6 @@
  */
 package uipacontroleadotantes.banco.adotantes;
 
-import uipacontroleadotantes.uteis.Sanitize;
-
 /**
  *
  * @author mckatoo
@@ -16,12 +14,13 @@ public class AdotantesBean {
     private String nome;
     private String telefone;
     private String celular;
+    private String cep;
     private String endereco;
     private String bairro;
     private String cidade;
-    private String UF;
-    private String CPF;
-    private String RG;
+    private String uf;
+    private String cpf;
+    private String rg;
     private char[] sexo;
     private String email;
 
@@ -57,6 +56,14 @@ public class AdotantesBean {
         this.celular = celular;
     }
 
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
     public String getEndereco() {
         return endereco;
     }
@@ -81,28 +88,28 @@ public class AdotantesBean {
         this.cidade = cidade;
     }
 
-    public String getUF() {
-        return UF;
+    public String getUf() {
+        return uf;
     }
 
-    public void setUF(String UF) {
-        this.UF = UF;
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 
-    public String getCPF() {
-        return CPF;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public String getRG() {
-        return RG;
+    public String getRg() {
+        return rg;
     }
 
-    public void setRG(String RG) {
-        this.RG = RG;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
     public char[] getSexo() {
@@ -123,8 +130,7 @@ public class AdotantesBean {
 
     @Override
     public String toString() {
-        return "Adotantes{" + "codAdotante=" + codAdotante + ", nome=" + nome + ", telefone=" + telefone + ", celular=" + celular + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade + ", UF=" + UF + ", CPF=" + CPF + ", RG=" + RG + ", sexo=" + Sanitize.sanitizar(sexo) + ", email=" + email + '}';
+        return "AdotantesBean{" + "codAdotante=" + codAdotante + ", nome=" + nome + ", telefone=" + telefone + ", celular=" + celular + ", cep=" + cep + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade + ", uf=" + uf + ", cpf=" + cpf + ", rg=" + rg + ", sexo=" + sexo + ", email=" + email + '}';
     }
-    
-    
+
 }

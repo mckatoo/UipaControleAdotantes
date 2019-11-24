@@ -18,7 +18,7 @@ import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 public class AdotantesTableModel extends AbstractTableModel {
     
     private final List<AdotantesBean> dados = new ArrayList<>();
-    private final String[] colunas = {"CÓDIGO", "NOME", "TELEFONE", "CELULAR", "ENDEREÇO", "BAIRRO", "CIDADE", "UF", "CPF", "RG", "SEXO", "EMAIL"};
+    private final String[] colunas = {"CÓDIGO", "NOME", "TELEFONE", "CELULAR", "CEP", "ENDEREÇO", "BAIRRO", "CIDADE", "UF", "CPF", "RG", "SEXO", "EMAIL"};
     
     @Override
     public String getColumnName(int column) {
@@ -47,20 +47,22 @@ public class AdotantesTableModel extends AbstractTableModel {
             case 3:
                 return dados.get(rowIndex).getCelular();
             case 4:
-                return dados.get(rowIndex).getEndereco();
+                return dados.get(rowIndex).getCep();
             case 5:
-                return dados.get(rowIndex).getBairro();
+                return dados.get(rowIndex).getEndereco();
             case 6:
-                return dados.get(rowIndex).getCidade();
+                return dados.get(rowIndex).getBairro();
             case 7:
-                return dados.get(rowIndex).getUF();
+                return dados.get(rowIndex).getCidade();
             case 8:
-                return dados.get(rowIndex).getCPF();
+                return dados.get(rowIndex).getUf();
             case 9:
-                return dados.get(rowIndex).getRG();
+                return dados.get(rowIndex).getCpf();
             case 10:
-                return "" + Arrays.toString(dados.get(rowIndex).getSexo()).charAt(1);
+                return dados.get(rowIndex).getRg();
             case 11:
+                return "" + Arrays.toString(dados.get(rowIndex).getSexo()).charAt(1);
+            case 12:
                 return dados.get(rowIndex).getEmail();
         }
         return null;
@@ -82,27 +84,30 @@ public class AdotantesTableModel extends AbstractTableModel {
                 dados.get(rowIndex).setCelular((String) aValue);
                 break;
             case 4:
-                dados.get(rowIndex).setEndereco((String) aValue);
+                dados.get(rowIndex).setCep((String) aValue);
                 break;
             case 5:
-                dados.get(rowIndex).setBairro((String) aValue);
+                dados.get(rowIndex).setEndereco((String) aValue);
                 break;
             case 6:
-                dados.get(rowIndex).setCidade((String) aValue);
+                dados.get(rowIndex).setBairro((String) aValue);
                 break;
             case 7:
-                dados.get(rowIndex).setUF((String) aValue);
+                dados.get(rowIndex).setCidade((String) aValue);
                 break;
             case 8:
-                dados.get(rowIndex).setCPF((String) aValue);
+                dados.get(rowIndex).setUf((String) aValue);
                 break;
             case 9:
-                dados.get(rowIndex).setRG((String) aValue);
+                dados.get(rowIndex).setCpf((String) aValue);
                 break;
-            case 10: 
+            case 10:
+                dados.get(rowIndex).setRg((String) aValue);
+                break;
+            case 11: 
                 dados.get(rowIndex).setSexo(((String) aValue).toCharArray());
                 break;
-            case 11:
+            case 12:
                 dados.get(rowIndex).setEmail((String) aValue);
                 break;
         }

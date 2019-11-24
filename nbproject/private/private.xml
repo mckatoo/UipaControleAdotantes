@@ -4,8 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/media/ARQUIVOS/COMMON/PROJETOS/faculdade/UipaControleAdotantes/src/uipacontroleadotantes/banco/usuarios/UsuariosDAO.java</file>
-            <file>file:/media/ARQUIVOS/COMMON/PROJETOS/faculdade/UipaControleAdotantes/src/uipacontroleadotantes/banco/usuarios/UsuariosBean.java</file>
-            <file>file:/media/ARQUIVOS/COMMON/PROJETOS/faculdade/UipaControleAdotantes/src/uipacontroleadotantes/gui/Loading.java</file>
+            <file>file:/media/ARQUIVOS/COMMON/PROJETOS/faculdade/UipaControleAdotantes/src/uipacontroleadotantes/gui/LoginGUI.java</file>
+            <file>file:/media/ARQUIVOS/COMMON/PROJETOS/faculdade/UipaControleAdotantes/src/uipacontroleadotantes/gui/adotantes/AdotantesCadastro.java</file>
         </group>
     </open-files>
 </project-private>

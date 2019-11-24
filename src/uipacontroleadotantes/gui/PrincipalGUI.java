@@ -56,6 +56,8 @@ public class PrincipalGUI extends javax.swing.JFrame {
         setTitle("UIPA - CONTROLE DE ADOTANTES");
         setLocation(new java.awt.Point(0, 0));
 
+        jDesktopPane.setMinimumSize(new java.awt.Dimension(500, 400));
+
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
@@ -64,9 +66,10 @@ public class PrincipalGUI extends javax.swing.JFrame {
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 494, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/tools-24x24.png"))); // NOI18N
         jMenu1.setText("Arquivo");
 
         jMenuItem1.setText("Sair");
@@ -79,6 +82,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/team-24x24.png"))); // NOI18N
         jMenu2.setText("Adotantes");
 
         jMenuItem2.setText("Cadastro");
@@ -91,6 +95,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/cao-24x24.png"))); // NOI18N
         jMenu3.setText("Animais");
 
         jMenuItem4.setText("Cadastro");
@@ -111,6 +116,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/seringa-24x24.png"))); // NOI18N
         jMenu4.setText("Vacinas");
 
         jMenuItem7.setText("Cadastro");
@@ -123,6 +129,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/add-human-24x24.png"))); // NOI18N
         jMenu5.setText("Usuários");
 
         jMenuItem3.setText("Cadastro");
@@ -135,6 +142,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
+        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/janelas-24x24.png"))); // NOI18N
         jMenu6.setText("Janelas");
 
         jMenuItem5.setText("Fechar todas");
@@ -142,6 +150,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/ajuda-24x24.png"))); // NOI18N
         jMenu7.setText("Ajuda");
         jMenuBar1.add(jMenu7);
 
@@ -151,11 +160,11 @@ public class PrincipalGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane)
+            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();

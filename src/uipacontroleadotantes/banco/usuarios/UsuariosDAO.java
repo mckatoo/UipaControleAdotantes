@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import uipacontroleadotantes.banco.Conexao;
 import uipacontroleadotantes.uteis.Seguranca;
 
@@ -186,16 +186,19 @@ public class UsuariosDAO {
         return null;
     }
 
-    public boolean login(String login, String senha) {
-        UsuariosBean usuario = pesquisarPorUsuario(login);
-        String agora = LocalDateTime.now().toString();
-        String data = agora.split("T")[0];
-        String hora = agora.split("T")[1];
-        System.out.println(data + " - " + hora + ": " + usuario.getLogin() + " entrou no sistema.");
-        if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
-            return true;
-        }
-        return false;
+    public Future<Boolean> login(String login, String senha) {
+        return CompletableFuture.supplyAsync(() -> {
+            UsuariosBean usuario = pesquisarPorUsuario(login);
+            String agora = LocalDateTime.now().toString();
+            String data = agora.split("T")[0];
+            String hora = agora.split("T")[1];
+            System.out.println(data + " - " + hora + ": " + usuario.getLogin() + " entrou no sistema.");
+            if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
+                return true;
+            }
+            System.out.println(data + " - " + hora + ": " + usuario.getLogin() + " - tentativa de acesso negada.");
+            return false;
+        });
     }
 
 }
