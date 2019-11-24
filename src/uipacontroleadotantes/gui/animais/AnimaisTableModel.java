@@ -5,11 +5,12 @@
  */
 package uipacontroleadotantes.gui.animais;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import uipacontroleadotantes.banco.adotantes.AdotantesBean;
+import uipacontroleadotantes.banco.animais.AnimaisBean;
 
 /**
  *
@@ -17,8 +18,8 @@ import uipacontroleadotantes.banco.adotantes.AdotantesBean;
  */
 public class AnimaisTableModel extends AbstractTableModel {
     
-    private final List<AdotantesBean> dados = new ArrayList<>();
-    private final String[] colunas = {"CÓDIGO", "NOME", "TELEFONE", "CELULAR", "ENDEREÇO", "BAIRRO", "CIDADE", "UF", "CPF", "RG", "SEXO", "EMAIL"};
+    private final List<AnimaisBean> dados = new ArrayList<>();
+    private final String[] colunas = {"CÓDIGO", "NOME", "ESPÉCIE", "SEXO", "DATA DE NASC.", "PORTE", "CASTRADO", "ADOTANTE", "DATA DE ADOÇÃO"};
     
     @Override
     public String getColumnName(int column) {
@@ -39,29 +40,23 @@ public class AnimaisTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex) {
             case 0:
-                return dados.get(rowIndex).getCodAdotante();
+                return dados.get(rowIndex).getCodAnimal();
             case 1:
                 return dados.get(rowIndex).getNome();
             case 2:
-                return dados.get(rowIndex).getTelefone();
+                return dados.get(rowIndex).getEspecie();
             case 3:
-                return dados.get(rowIndex).getCelular();
-            case 4:
-                return dados.get(rowIndex).getEndereco();
-            case 5:
-                return dados.get(rowIndex).getBairro();
-            case 6:
-                return dados.get(rowIndex).getCidade();
-            case 7:
-                return dados.get(rowIndex).getUf();
-            case 8:
-                return dados.get(rowIndex).getCpf();
-            case 9:
-                return dados.get(rowIndex).getRg();
-            case 10:
                 return "" + Arrays.toString(dados.get(rowIndex).getSexo()).charAt(1);
-            case 11:
-                return dados.get(rowIndex).getEmail();
+            case 4:
+                return dados.get(rowIndex).getDataNasc();
+            case 5:
+                return "" + Arrays.toString(dados.get(rowIndex).getPorte()).charAt(1);
+            case 6:
+                return "" + Arrays.toString(dados.get(rowIndex).getCastrado()).charAt(1);
+            case 7:
+                return dados.get(rowIndex).getCodAdotante();
+            case 8:
+                return dados.get(rowIndex).getDataAdocao();
         }
         return null;
     }
@@ -70,40 +65,38 @@ public class AnimaisTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         switch(columnIndex) {
             case 0:
-                dados.get(rowIndex).setCodAdotante(Integer.parseInt((String) aValue));
+                dados.get(rowIndex).setCodAnimal(Integer.parseInt((String) aValue));
                 break;
             case 1:
                 dados.get(rowIndex).setNome((String) aValue);
                 break;
             case 2:
-                dados.get(rowIndex).setTelefone((String) aValue);
+                dados.get(rowIndex).setEspecie((String) aValue);
                 break;
             case 3:
-                dados.get(rowIndex).setCelular((String) aValue);
-                break;
-            case 4:
-                dados.get(rowIndex).setEndereco((String) aValue);
-                break;
-            case 5:
-                dados.get(rowIndex).setBairro((String) aValue);
-                break;
-            case 6:
-                dados.get(rowIndex).setCidade((String) aValue);
-                break;
-            case 7:
-                break;
-            case 10: 
                 dados.get(rowIndex).setSexo(((String) aValue).toCharArray());
                 break;
-            case 11:
-                dados.get(rowIndex).setEmail((String) aValue);
+            case 4:
+                dados.get(rowIndex).setDataNasc(LocalDate.parse((String) aValue));
+                break;
+            case 5:
+                dados.get(rowIndex).setPorte(((String) aValue).toCharArray());
+                break;
+            case 6:
+                dados.get(rowIndex).setCastrado(((String) aValue).toCharArray());
+                break;
+            case 7:
+                dados.get(rowIndex).setCodAdotante(Integer.parseInt((String) aValue));
+                break;
+            case 8: 
+                dados.get(rowIndex).setDataNasc(LocalDate.parse((String) aValue));
                 break;
         }
         this.fireTableRowsUpdated(rowIndex, rowIndex);
     }
     
-    public void addRow(AdotantesBean adotante) {
-        this.dados.add(adotante);
+    public void addRow(AnimaisBean animal) {
+        this.dados.add(animal);
         this.fireTableDataChanged();
     }
     

@@ -6,10 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import uipacontroleadotantes.banco.Conexao;
-import uipacontroleadotantes.uteis.Sanitize;
 
 /**
  * AnimaisDAO
@@ -75,12 +75,12 @@ public class AnimaisDAO {
         }
     }
 
-    public String excluir(int CodAdotante) throws SQLException {
+    public String excluir(int codAnimal) throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "delete from adotante where CodAdotante = ?";
+        String sql = "delete from animal where CodAnimal = ?";
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, String.valueOf(CodAdotante));
+            ps.setString(1, String.valueOf(codAnimal));
             if (ps.executeUpdate() > 0) {
                 return "Excluido com sucesso.";
             }
@@ -92,30 +92,30 @@ public class AnimaisDAO {
         return null;
     }
 
-    public List<AdotantesBean> listarTodos() throws SQLException {
+    public List<AnimaisBean> listarTodos() throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from animais ";
+        String sql = "select * from animal";
         ResultSet rs = null;
-        List<AdotantesBean> listaAdotantes = new ArrayList<>();
+        List<AnimaisBean> listaAnimais = new ArrayList<>();
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
-                    AdotantesBean adotantesBean = new AdotantesBean();
-                    adotantesBean.setCodAdotante(rs.getInt("CodAdotante"));
-                    adotantesBean.setNome(rs.getString("Nome"));
-                    adotantesBean.setTelefone(rs.getString("Telefone"));
-                    adotantesBean.setCelular(rs.getString("Celular"));
-                    adotantesBean.setEndereco(rs.getString("Endereco"));
-                    adotantesBean.setBairro(rs.getString("Bairro"));
-                    adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
-                    adotantesBean.setEmail(rs.getString("Email"));
-                    listaAdotantes.add(adotantesBean);
+                    AnimaisBean animaisBean = new AnimaisBean();
+                    animaisBean.setCodAnimal(Integer.parseInt(rs.getString("CodAnimal")));
+                    animaisBean.setNome(rs.getString("Nome"));
+                    animaisBean.setEspecie(rs.getString("Especie"));
+                    animaisBean.setSexo(rs.getString("Sexo").toCharArray());
+                    animaisBean.setDataNasc(LocalDate.parse(rs.getString("DataNasc")));
+                    animaisBean.setPorte(rs.getString("Porte").toCharArray());
+                    animaisBean.setCastrado(rs.getString("Castrado").toCharArray());
+                    animaisBean.setCodAdotante(rs.getInt("CodAdotante"));
+                    animaisBean.setDataAdocao(LocalDate.parse(rs.getString("DataAdocao")));
+                    listaAnimais.add(animaisBean);
                 }
                 System.out.println("Listado com sucesso!");
-                return listaAdotantes;
+                return listaAnimais;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -125,31 +125,27 @@ public class AnimaisDAO {
         return null;
     }
 
-    public List<AdotantesBean> pesquisarPorCodigo(String CodAdotante) {
+    public AnimaisBean pesquisarPorCodAnimal(String codAnimal) {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from adotante where CodAdotante = ?";
+        String sql = "select * from animal where CodAnimal = ?";
         ResultSet rs = null;
-        List<AdotantesBean> listaAdotantes = new ArrayList<>();
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, CodAdotante);
+            ps.setString(1, codAnimal);
             rs = ps.executeQuery();
             if (rs != null) {
-                while (rs.next()) {
-                    AdotantesBean adotantesBean = new AdotantesBean();
-                    adotantesBean.setCodAdotante(rs.getInt("CodAdotante"));
-                    adotantesBean.setNome(rs.getString("Nome"));
-                    adotantesBean.setTelefone(rs.getString("Telefone"));
-                    adotantesBean.setCelular(rs.getString("Celular"));
-                    adotantesBean.setEndereco(rs.getString("Endereco"));
-                    adotantesBean.setBairro(rs.getString("Bairro"));
-                    adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
-                    adotantesBean.setEmail(rs.getString("Email"));
-                    listaAdotantes.add(adotantesBean);
-                }
+                AnimaisBean animaisBean = new AnimaisBean();
+                animaisBean.setCodAnimal(Integer.parseInt(rs.getString("CodAnimal")));
+                animaisBean.setNome(rs.getString("Nome"));
+                animaisBean.setEspecie(rs.getString("Especie"));
+                animaisBean.setSexo(rs.getString("Sexo").toCharArray());
+                animaisBean.setDataNasc(LocalDate.parse(rs.getString("DataNasc")));
+                animaisBean.setPorte(rs.getString("Porte").toCharArray());
+                animaisBean.setCastrado(rs.getString("Castrado").toCharArray());
+                animaisBean.setCodAdotante(rs.getInt("CodAdotante"));
+                animaisBean.setDataAdocao(LocalDate.parse(rs.getString("DataAdocao")));
                 System.out.println("Localizado com sucesso!");
-                return listaAdotantes;
+                return animaisBean;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -158,32 +154,66 @@ public class AnimaisDAO {
         }
         return null;
     }
-    
-     public List<AdotantesBean> pesquisarPorNome(String nome) {
+
+    public List<AnimaisBean> pesquisarPorCodAdotante(String codAdotante) {
         Connection con = Conexao.abrirConexao();
-        String sql = "select * from adotante where Nome like ?";
+        String sql = "select * from animal where CodAdotante = ?";
         ResultSet rs = null;
-        List<AdotantesBean> listaAdotantes = new ArrayList<>();
+        List<AnimaisBean> listaAnimais = new ArrayList<>();
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, codAdotante);
+            rs = ps.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    AnimaisBean animaisBean = new AnimaisBean();
+                    animaisBean.setCodAnimal(Integer.parseInt(rs.getString("CodAnimal")));
+                    animaisBean.setNome(rs.getString("Nome"));
+                    animaisBean.setEspecie(rs.getString("Especie"));
+                    animaisBean.setSexo(rs.getString("Sexo").toCharArray());
+                    animaisBean.setDataNasc(LocalDate.parse(rs.getString("DataNasc")));
+                    animaisBean.setPorte(rs.getString("Porte").toCharArray());
+                    animaisBean.setCastrado(rs.getString("Castrado").toCharArray());
+                    animaisBean.setCodAdotante(rs.getInt("CodAdotante"));
+                    animaisBean.setDataAdocao(LocalDate.parse(rs.getString("DataAdocao")));
+                    listaAnimais.add(animaisBean);
+                }
+                System.out.println("Localizado com sucesso!");
+                return listaAnimais;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Conexao.fecharConexao(con, ps, rs);
+        }
+        return null;
+    }
+
+    public List<AnimaisBean> pesquisarPorNome(String nome) {
+        Connection con = Conexao.abrirConexao();
+        String sql = "select * from animal where Nome like ?";
+        ResultSet rs = null;
+        List<AnimaisBean> listaAnimais = new ArrayList<>();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, "%" + nome + "%");
             rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
-                    AdotantesBean adotantesBean = new AdotantesBean();
-                    adotantesBean.setCodAdotante(rs.getInt("CodAdotante"));
-                    adotantesBean.setNome(rs.getString("Nome"));
-                    adotantesBean.setTelefone(rs.getString("Telefone"));
-                    adotantesBean.setCelular(rs.getString("Celular"));
-                    adotantesBean.setEndereco(rs.getString("Endereco"));
-                    adotantesBean.setBairro(rs.getString("Bairro"));
-                    adotantesBean.setCidade(rs.getString("Cidade"));
-                    adotantesBean.setSexo(rs.getString("Sexo").toCharArray());
-                    adotantesBean.setEmail(rs.getString("Email"));
-                    listaAdotantes.add(adotantesBean);
+                    AnimaisBean animaisBean = new AnimaisBean();
+                    animaisBean.setCodAnimal(Integer.parseInt(rs.getString("CodAnimal")));
+                    animaisBean.setNome(rs.getString("Nome"));
+                    animaisBean.setEspecie(rs.getString("Especie"));
+                    animaisBean.setSexo(rs.getString("Sexo").toCharArray());
+                    animaisBean.setDataNasc(LocalDate.parse(rs.getString("DataNasc")));
+                    animaisBean.setPorte(rs.getString("Porte").toCharArray());
+                    animaisBean.setCastrado(rs.getString("Castrado").toCharArray());
+                    animaisBean.setCodAdotante(rs.getInt("CodAdotante"));
+                    animaisBean.setDataAdocao(LocalDate.parse(rs.getString("DataAdocao")));
+                    listaAnimais.add(animaisBean);
                 }
                 System.out.println("Listado com sucesso!");
-                return listaAdotantes;
+                return listaAnimais;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
