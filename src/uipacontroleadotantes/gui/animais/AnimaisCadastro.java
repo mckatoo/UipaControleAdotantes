@@ -5,9 +5,10 @@
  */
 package uipacontroleadotantes.gui.animais;
 
-import uipacontroleadotantes.gui.adotantes.*;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -20,6 +21,8 @@ import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
 import uipacontroleadotantes.banco.animais.AnimaisBean;
 import uipacontroleadotantes.banco.animais.AnimaisDAO;
+import uipacontroleadotantes.gui.renderers.DefaultCellRenderer;
+import uipacontroleadotantes.uteis.FormataData;
 
 /**
  *
@@ -38,6 +41,7 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
         setFrameIcon(new ImageIcon(this.getClass().getResource("/uipacontroleadotantes/assets/cao-24x24.png")));
         tblAnimais.setModel(model);
         preencherTable();
+        preencherCbAdotantes();
     }
 
     /**
@@ -55,16 +59,16 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         cbSexo = new javax.swing.JComboBox<>();
-        cbEspecie1 = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbPorte = new javax.swing.JComboBox<>();
+        cbCastrado = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         txtEspecie = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        cbSexo1 = new javax.swing.JComboBox<>();
+        cbAdotante = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        txtDataNascimento = new javax.swing.JFormattedTextField();
+        txtDataAdocao = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
@@ -100,11 +104,11 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
         cbSexo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         cbSexo.setName("cbSexo"); // NOI18N
 
-        cbEspecie1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "P - Pequeno", "M - Médio", "G - Grande" }));
-        cbEspecie1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        cbEspecie1.setName(""); // NOI18N
+        cbPorte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "P - Pequeno", "M - Médio", "G - Grande" }));
+        cbPorte.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        cbPorte.setName(""); // NOI18N
 
-        jCheckBox1.setText("Castrado");
+        cbCastrado.setText("Castrado");
 
         jLabel3.setText("Espécie:");
 
@@ -120,17 +124,27 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Adotante:");
 
-        cbSexo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "M - Masculino", "F - Feminino" }));
-        cbSexo1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        cbSexo1.setName("cbSexo"); // NOI18N
+        cbAdotante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione..." }));
+        cbAdotante.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        cbAdotante.setName("cbSexo"); // NOI18N
 
         jLabel12.setText("Data Adoção:");
 
-        jFormattedTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        txtDataNascimento.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        txtDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        txtDataNascimento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDataNascimentoKeyReleased(evt);
+            }
+        });
 
-        jFormattedTextField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        txtDataAdocao.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        txtDataAdocao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        txtDataAdocao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDataAdocaoKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,8 +163,8 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
                             .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbSexo1, 0, 170, Short.MAX_VALUE)
-                            .addComponent(jFormattedTextField1))))
+                            .addComponent(cbAdotante, 0, 170, Short.MAX_VALUE)
+                            .addComponent(txtDataNascimento))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -160,17 +174,17 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
                         .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtEspecie)
-                            .addComponent(cbEspecie1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbPorte, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
+                            .addComponent(cbCastrado)
                             .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                        .addComponent(txtDataAdocao, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                         .addGap(175, 175, 175)))
                 .addContainerGap())
         );
@@ -189,15 +203,15 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(cbEspecie1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbPorte, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbCastrado)
+                    .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(cbSexo1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbAdotante, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDataAdocao, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -345,36 +359,40 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-//        if (verificarCamposObrigatorios()) {
-//            AdotantesBean adotanteBean = new AdotantesBean();
-//            adotanteBean.setNome(txtNome.getText());
-//            adotanteBean.setTelefone(txtEspecie.getText());
-//            adotanteBean.setCelular(txtCelular.getText());
-//            adotanteBean.setEndereco(txtIdade.getText());
-//            adotanteBean.setBairro(txtBairro.getText());
-//            adotanteBean.setCidade(txtCidade.getText());
-//            if (cbEspecie.getSelectedIndex() > 0) {
-//                adotanteBean.setUF(cbEspecie.getSelectedItem().toString().split(" - ")[0]);
-//            }
-//            adotanteBean.setCPF(txtCPF.getText());
-//            adotanteBean.setRG(txtRG.getText());
-//            if (cbSexo.getSelectedIndex() > 0) {
-//                char[] sexo = cbSexo.getSelectedItem().toString().split("")[0].toCharArray();
-//                adotanteBean.setSexo(sexo);
-//            }
-//            adotanteBean.setEmail(txtEmail.getText());
-//
-//            AdotantesDAO adotantesDAO = new AdotantesDAO();
-//
-//            try {
-//                int codAdotante = adotantesDAO.inserir(adotanteBean);
-//                adotanteBean.setCodAdotante(codAdotante);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            limparCampos();
-//            model.addRow(adotanteBean);
-//        }
+        if (verificarCamposObrigatorios()) {
+            AnimaisBean animaisBean = new AnimaisBean();
+            animaisBean.setNome(txtNome.getText());
+            animaisBean.setEspecie(txtEspecie.getText());
+            if (cbSexo.getSelectedIndex() > 0) {
+                char[] sexo = cbSexo.getSelectedItem().toString().split(" - ")[0].toCharArray();
+                animaisBean.setSexo(sexo);
+            }
+            animaisBean.setDataNasc(LocalDate.parse(FormataData.BRtoUS(txtDataNascimento.getText())));
+            animaisBean.setPorte(cbPorte.getSelectedItem().toString().split(" - ")[0].toCharArray());
+            char[] castrado = new char[1];
+            if (cbCastrado.isSelected()) {
+                castrado[0] = 'S';
+            } else {
+                castrado[0] = 'N';
+            }
+            animaisBean.setCastrado(castrado);
+            if (cbAdotante.getSelectedIndex() > 0) {
+                int codAdotante = Integer.parseInt(cbAdotante.getSelectedItem().toString().split(" - ")[0]);
+                animaisBean.setCodAdotante(codAdotante);
+            }
+            animaisBean.setDataAdocao(LocalDate.parse(FormataData.BRtoUS(txtDataAdocao.getText())));
+
+            AnimaisDAO animaisDAO = new AnimaisDAO();
+
+            try {
+                int codAnimal = animaisDAO.inserir(animaisBean);
+                animaisBean.setCodAnimal(codAnimal);
+            } catch (SQLException ex) {
+                Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            limparCampos();
+            model.addRow(animaisBean);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -382,37 +400,44 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formComponentShown
 
     private void tblAnimaisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAnimaisMouseClicked
-//        if (evt.getClickCount() == 2) {
-//            int linha = tblAdotantes.getSelectedRow();
-//            limparCampos();
-//            txtNome.setText(tblAdotantes.getValueAt(linha, 1).toString());
-//            txtTelefone.setText(tblAdotantes.getValueAt(linha, 2).toString());
-//            txtCelular.setText(tblAdotantes.getValueAt(linha, 3).toString());
-//            txtIdade.setText(tblAdotantes.getValueAt(linha, 4).toString());
-//            txtBairro.setText(tblAdotantes.getValueAt(linha, 5).toString());
-//            txtCidade.setText(tblAdotantes.getValueAt(linha, 6).toString());
-//            if (tblAdotantes.getValueAt(linha, 7) != null) {
-//                for (int i = 0; i < cbEspecie.getItemCount(); i++) {
-//                    if (cbEspecie.getItemAt(i).split(" - ")[0].equals(tblAdotantes.getValueAt(linha, 7).toString())) {
-//                        cbEspecie.setSelectedIndex(i);
-//                    }
-//                }
-//            }
-//            txtCPF.setText(tblAdotantes.getValueAt(linha, 8).toString());
-//            txtRG.setText(tblAdotantes.getValueAt(linha, 9).toString());
-//            if (tblAdotantes.getValueAt(linha, 10) != null) {
-//                for (int i = 0; i < cbSexo.getItemCount(); i++) {
-//                    if (cbSexo.getItemAt(i).split(" - ")[0].equals(tblAdotantes.getValueAt(linha, 10).toString())) {
-//                        cbSexo.setSelectedIndex(i);
-//                    }
-//                }
-//            }
-//            txtEmail.setText(tblAdotantes.getValueAt(linha, 11).toString());
-//            txtNome.requestFocus();
-//            btnAtualizar.setEnabled(true);
-//            btnExcluir.setEnabled(true);
-//            btnCadastrar.setEnabled(false);
-//        }
+        if (evt.getClickCount() == 2) {
+            int linha = tblAnimais.getSelectedRow();
+            limparCampos();
+            txtNome.setText(tblAnimais.getValueAt(linha, 1).toString());
+            txtEspecie.setText(tblAnimais.getValueAt(linha, 2).toString());
+            if (tblAnimais.getValueAt(linha, 3) != null) {
+                for (int i = 0; i < cbSexo.getItemCount(); i++) {
+                    if (cbSexo.getItemAt(i).split(" - ")[0].equals(tblAnimais.getValueAt(linha, 3).toString())) {
+                        cbSexo.setSelectedIndex(i);
+                    }
+                }
+            }
+            txtDataNascimento.setText(FormataData.UStoBR(tblAnimais.getValueAt(linha, 4).toString()));
+            if (tblAnimais.getValueAt(linha, 5) != null) {
+                for (int i = 0; i < cbPorte.getItemCount(); i++) {
+                    if (cbPorte.getItemAt(i).split(" - ")[0].equals(tblAnimais.getValueAt(linha, 5).toString())) {
+                        cbPorte.setSelectedIndex(i);
+                    }
+                }
+            }
+            if (tblAnimais.getValueAt(linha, 6).toString().equals("S")) {
+                cbCastrado.setSelected(true);
+            } else {
+                cbCastrado.setSelected(false);
+            }
+            if (tblAnimais.getValueAt(linha, 7) != null) {
+                for (int i = 0; i < cbAdotante.getItemCount(); i++) {
+                    if (cbAdotante.getItemAt(i).split(" - ")[0].equals(tblAnimais.getValueAt(linha, 7).toString())) {
+                        cbAdotante.setSelectedIndex(i);
+                    }
+                }
+            }
+            txtDataAdocao.setText(FormataData.UStoBR(tblAnimais.getValueAt(linha, 8).toString()));
+            txtNome.requestFocus();
+            btnAtualizar.setEnabled(true);
+            btnExcluir.setEnabled(true);
+            btnCadastrar.setEnabled(false);
+        }
     }//GEN-LAST:event_tblAnimaisMouseClicked
 
     private void txtNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyReleased
@@ -420,88 +445,105 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtNomeKeyReleased
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
-//        if (verificarCamposObrigatorios()) {
-//            AdotantesBean adotanteBean = new AdotantesBean();
-//            int linha = tblAdotantes.getSelectedRow();
-//            if (linha < 0) {
-//                return;
-//            }
-//            int codAdotante = Integer.parseInt(tblAdotantes.getValueAt(linha, 0).toString());
-//            adotanteBean.setCodAdotante(codAdotante);
-//            adotanteBean.setNome(txtNome.getText());
-//            adotanteBean.setTelefone(txtTelefone.getText());
-//            adotanteBean.setCelular(txtCelular.getText());
-//            adotanteBean.setEndereco(txtIdade.getText());
-//            adotanteBean.setBairro(txtBairro.getText());
-//            adotanteBean.setCidade(txtCidade.getText());
-//            if (cbEspecie.getSelectedIndex() > 0) {
-//                adotanteBean.setUF(cbEspecie.getSelectedItem().toString().split(" - ")[0]);
-//            }
-//            adotanteBean.setCPF(txtCPF.getText());
-//            adotanteBean.setRG(txtRG.getText());
-//            if (cbSexo.getSelectedIndex() > 0) {
-//                char[] sexo = cbSexo.getSelectedItem().toString().split("")[0].toCharArray();
-//                adotanteBean.setSexo(sexo);
-//            }
-//            adotanteBean.setEmail(txtEmail.getText());
-//
-//            AdotantesDAO adotantesDAO = new AdotantesDAO();
-//
-//            try {
-//                adotantesDAO.alterar(adotanteBean);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            model.setValueAt(String.valueOf(codAdotante), linha, 0);
-//            model.setValueAt(txtNome.getText(), linha, 1);
-//            model.setValueAt(txtTelefone.getText(), linha, 2);
-//            model.setValueAt(txtCelular.getText(), linha, 3);
-//            model.setValueAt(txtIdade.getText(), linha, 4);
-//            model.setValueAt(txtBairro.getText(), linha, 5);
-//            model.setValueAt(txtCidade.getText(), linha, 6);
-//            model.setValueAt(cbEspecie.getSelectedItem().toString().split(" - ")[0], linha, 7);
-//            model.setValueAt(txtCPF.getText(), linha, 8);
-//            model.setValueAt(txtRG.getText(), linha, 9);
-//            model.setValueAt(cbSexo.getSelectedItem().toString().split(" - ")[0], linha, 10);
-//            model.setValueAt(txtEmail.getText(), linha, 11);
-//
-//            limparCampos();
-//        }
+        if (verificarCamposObrigatorios()) {
+            AnimaisBean animaisBean = new AnimaisBean();
+            int linha = tblAnimais.getSelectedRow();
+            if (linha < 0) {
+                return;
+            }
+            int codAnimal = Integer.parseInt(tblAnimais.getValueAt(linha, 0).toString());
+            animaisBean.setCodAnimal(codAnimal);
+            animaisBean.setNome(txtNome.getText());
+            animaisBean.setEspecie(txtEspecie.getText());
+            char[] sexo = new char[1];
+            if (cbSexo.getSelectedIndex() > 0) {
+                sexo = cbSexo.getSelectedItem().toString().split(" - ")[0].toCharArray();
+                animaisBean.setSexo(sexo);
+            }
+//            LocalDate data = LocalDate.parse((String) FormataData.BRtoUS(txtData.getText()));
+            animaisBean.setDataNasc(LocalDate.parse((String) FormataData.BRtoUS(txtDataNascimento.getText())));
+            char[] porte = cbPorte.getSelectedItem().toString().split(" - ")[0].toCharArray();
+            animaisBean.setPorte(porte);
+            char[] castrado = new char[1];
+            if (cbCastrado.isSelected()) {
+                castrado[0] = 'S';
+            } else {
+                castrado[0] = 'N';
+            }
+            animaisBean.setCastrado(castrado);
+            int codAdotante = 0;
+            if (cbAdotante.getSelectedIndex() > 0) {
+                codAdotante = Integer.parseInt(cbAdotante.getSelectedItem().toString().split(" - ")[0]);
+                animaisBean.setCodAdotante(codAdotante);
+            }
+            animaisBean.setDataAdocao(LocalDate.parse(FormataData.BRtoUS(txtDataAdocao.getText())));
+
+            AnimaisDAO animaisDAO = new AnimaisDAO();
+
+            try {
+                animaisDAO.alterar(animaisBean);
+            } catch (SQLException ex) {
+                Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            model.setValueAt(String.valueOf(codAnimal), linha, 0);
+            model.setValueAt(txtNome.getText(), linha, 1);
+            model.setValueAt(txtEspecie.getText(), linha, 2);
+            model.setValueAt(String.copyValueOf(sexo), linha, 3);
+            model.setValueAt(FormataData.BRtoUS(txtDataNascimento.getText()), linha, 4);
+            model.setValueAt(String.copyValueOf(porte), linha, 5);
+            model.setValueAt(String.copyValueOf(castrado), linha, 6);
+            model.setValueAt(String.valueOf(codAdotante), linha, 7);
+            model.setValueAt(FormataData.BRtoUS(txtDataAdocao.getText()), linha, 8);
+
+            limparCampos();
+        }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-//        AdotantesDAO adotantesDAO = new AdotantesDAO();
-//        limparModel();
-//        if (!txtNome.getText().equals("")) {
-//            adotantesDAO.pesquisarPorNome(txtNome.getText()).forEach((adotantes) -> {
-//                model.addRow(adotantes);
-//            });
-//        }
+        AnimaisDAO animaisDAO = new AnimaisDAO();
+        limparModel();
+        if (!txtNome.getText().equals("")) {
+            animaisDAO.pesquisarPorNome(txtNome.getText()).forEach((animal) -> {
+                model.addRow(animal);
+            });
+        }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-//        int linha = tblAnimais.getSelectedRow();
-//        int codAdotante = Integer.parseInt(tblAnimais.getValueAt(linha, 0).toString());
-//        String nome = tblAnimais.getValueAt(linha, 1).toString();
-//        if (codAdotante > 0) {
-//            int permissao = JOptionPane.showConfirmDialog(null, "TEM CERTEZA QUE DESEJA APAGAR O ADOTANTE " + nome + "?", "EXCLUIR?", JOptionPane.YES_NO_OPTION);
-//            if (permissao == 0) {
-//                AdotantesDAO adotantesDAO = new AdotantesDAO();
-//                try {
-//                    adotantesDAO.excluir(codAdotante);
-//                    model.removeRow(linha);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            limparCampos();
-//        }
+        int linha = tblAnimais.getSelectedRow();
+        int codAnimal = Integer.parseInt(tblAnimais.getValueAt(linha, 0).toString());
+        String nome = tblAnimais.getValueAt(linha, 1).toString();
+        if (codAnimal > 0) {
+            int permissao = JOptionPane.showConfirmDialog(null, "TEM CERTEZA QUE DESEJA EXCLUIR O ANIMAL " + nome + "?", "EXCLUIR?", JOptionPane.YES_NO_OPTION);
+            if (permissao == 0) {
+                AnimaisDAO animaisDao = new AnimaisDAO();
+                try {
+                    animaisDao.excluir(codAnimal);
+                    model.removeRow(linha);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            limparCampos();
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void txtEspecieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEspecieKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEspecieKeyReleased
+
+    private void txtDataNascimentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataNascimentoKeyReleased
+        if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+            txtDataNascimento.setText(FormataData.validaData(txtDataNascimento.getText()));
+        }
+    }//GEN-LAST:event_txtDataNascimentoKeyReleased
+
+    private void txtDataAdocaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataAdocaoKeyReleased
+        if (evt.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+            txtDataAdocao.setText(FormataData.validaData(txtDataAdocao.getText()));
+        }
+    }//GEN-LAST:event_txtDataAdocaoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -510,12 +552,10 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnPesquisar;
-    private javax.swing.JComboBox<String> cbEspecie1;
+    private javax.swing.JComboBox<String> cbAdotante;
+    private javax.swing.JCheckBox cbCastrado;
+    private javax.swing.JComboBox<String> cbPorte;
     private javax.swing.JComboBox<String> cbSexo;
-    private javax.swing.JComboBox<String> cbSexo1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -527,6 +567,8 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAnimais;
+    private javax.swing.JFormattedTextField txtDataAdocao;
+    private javax.swing.JFormattedTextField txtDataNascimento;
     private javax.swing.JTextField txtEspecie;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
@@ -547,47 +589,18 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
                 ((JCheckBox) c).setSelected(false);
             }
         }
+        txtDataAdocao.setText(FormataData.UStoBR(LocalDate.now().toString()));
         btnCadastrar.setEnabled(true);
         btnAtualizar.setEnabled(false);
         btnExcluir.setEnabled(false);
     }
 
     private boolean verificarCamposObrigatorios() {
-//        if (txtNome.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO NOME VAZIO.");
-//            txtNome.requestFocus();
-//            return false;
-//        }
-//        if (txtIdade.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO ENDEREÇO VAZIO.");
-//            txtIdade.requestFocus();
-//            return false;
-//        }
-//        if (txtBairro.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO BAIRRO VAZIO.");
-//            txtBairro.requestFocus();
-//            return false;
-//        }
-//        if (txtCidade.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO CIDADE VAZIO.");
-//            txtCidade.requestFocus();
-//            return false;
-//        }
-//        if (cbEspecie.getSelectedIndex() < 1) {
-//            JOptionPane.showMessageDialog(null, "CAMPO ESTADO VAZIO.");
-//            cbEspecie.requestFocus();
-//            return false;
-//        }
-//        if (txtRG.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO RG VAZIO.");
-//            txtRG.requestFocus();
-//            return false;
-//        }
-//        if (txtCPF.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "CAMPO CPF VAZIO.");
-//            txtCPF.requestFocus();
-//            return false;
-//        }
+        if (txtNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "CAMPO NOME VAZIO.");
+            txtNome.requestFocus();
+            return false;
+        }
         return true;
     }
 
@@ -598,6 +611,8 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
             for (AnimaisBean animal : animaisDAO.listarTodos()) {
                 model.addRow(animal);
             }
+            tblAnimais.getColumnModel().getColumn(4).setCellRenderer(new DefaultCellRenderer());
+            tblAnimais.getColumnModel().getColumn(8).setCellRenderer(new DefaultCellRenderer());
         } catch (SQLException ex) {
             Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -606,6 +621,22 @@ public class AnimaisCadastro extends javax.swing.JInternalFrame {
     private void limparModel() {
         for (int i = model.getRowCount() - 1; i > -1; i--) {
             model.removeRow(i);
+        }
+        preencherCbAdotantes();
+    }
+
+    private void preencherCbAdotantes() {
+        try {
+            AdotantesDAO adotantesDAO = new AdotantesDAO();
+            String primeiroItem = cbAdotante.getItemAt(0);
+            cbAdotante.removeAllItems();
+            cbAdotante.addItem(primeiroItem);
+            for (AdotantesBean adotante : adotantesDAO.listarTodos()) {
+                cbAdotante.addItem(adotante.getCodAdotante() + " - " + adotante.getNome());
+            }
+            cbAdotante.setSelectedIndex(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimaisCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

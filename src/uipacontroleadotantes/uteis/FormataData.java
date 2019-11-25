@@ -35,5 +35,13 @@ public class FormataData {
         }
         return dataUS;
     }
+    
+    public static String validaData(String data) {
+        String[] array = data.split("");
+        if ((array.length == 2) || (array.length == 5)) {
+            return data + "/";
+        }
+        return data;
+    }
 
 }

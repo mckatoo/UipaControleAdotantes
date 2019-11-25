@@ -55,8 +55,9 @@ public class PrincipalGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UIPA - CONTROLE DE ADOTANTES");
         setLocation(new java.awt.Point(0, 0));
+        setMinimumSize(new java.awt.Dimension(602, 402));
 
-        jDesktopPane.setMinimumSize(new java.awt.Dimension(500, 400));
+        jDesktopPane.setMinimumSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
