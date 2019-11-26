@@ -188,7 +188,6 @@ public class LoginGUI extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        loading.setVisible(true);
                         sleep(2000);
                         loading.dispose();
                         principal.setVisible(true);
@@ -198,6 +197,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 }
             }.start();
         } else {
+            loading.dispose();
             loginGUI.setVisible(true);
             new Thread() {
                 @Override
