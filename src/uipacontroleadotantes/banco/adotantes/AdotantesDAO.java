@@ -19,7 +19,7 @@ public class AdotantesDAO {
 
     public int inserir(AdotantesBean adotante) throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "insert into adotante(Nome, Telefone, Celular, Endereco, Bairro, Cidade, UF, CPF, RG, Sexo, Email)values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into adotante(Nome, Telefone, Celular, CEP, Endereco, Bairro, Cidade, UF, CPF, RG, Sexo, Email)values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         ResultSet rs;
         int id = 0;
 
@@ -28,14 +28,15 @@ public class AdotantesDAO {
             ps.setString(1, adotante.getNome());
             ps.setString(2, adotante.getTelefone());
             ps.setString(3, adotante.getCelular());
-            ps.setString(4, adotante.getEndereco());
-            ps.setString(5, adotante.getBairro());
-            ps.setString(6, adotante.getCidade());
-            ps.setString(7, adotante.getUf());
-            ps.setString(8, adotante.getCpf());
-            ps.setString(9, adotante.getRg());
-            ps.setString(10, Sanitize.sanitizar(adotante.getSexo()));
-            ps.setString(11, adotante.getEmail());
+            ps.setString(4, adotante.getCep());
+            ps.setString(5, adotante.getEndereco());
+            ps.setString(6, adotante.getBairro());
+            ps.setString(7, adotante.getCidade());
+            ps.setString(8, adotante.getUf());
+            ps.setString(9, adotante.getCpf());
+            ps.setString(10, adotante.getRg());
+            ps.setString(11, Sanitize.sanitizar(adotante.getSexo()));
+            ps.setString(12, adotante.getEmail());
             if (ps.executeUpdate() > 0) {
                 rs = ps.getGeneratedKeys();
                 rs.next();
@@ -53,23 +54,24 @@ public class AdotantesDAO {
 
     public void alterar(AdotantesBean adotante) throws SQLException {
         Connection con = Conexao.abrirConexao();
-        String sql = "update adotante set Nome = ?, Telefone = ?, Celular = ?, Endereco = ?, Bairro = ?, Cidade = ?, UF = ?, CPF = ?, RG = ?, Sexo = ?, Email = ?";
-        sql += " where codAdotante = ?";
+        String sql = "update adotante set Nome=?, Telefone=?, Celular=?, CEP=?, Endereco=?, Bairro=?, Cidade=?, UF=?, CPF=?, RG=?, Sexo=?, Email=?";
+        sql += " where codAdotante=?";
 
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, adotante.getNome());
             ps.setString(2, adotante.getTelefone());
             ps.setString(3, adotante.getCelular());
-            ps.setString(4, adotante.getEndereco());
-            ps.setString(5, adotante.getBairro());
-            ps.setString(6, adotante.getCidade());
-            ps.setString(7, adotante.getUf());
-            ps.setString(8, adotante.getCpf());
-            ps.setString(9, adotante.getRg());
-            ps.setString(10, Sanitize.sanitizar(adotante.getSexo()));
-            ps.setString(11, adotante.getEmail());
-            ps.setString(12, Integer.toString(adotante.getCodAdotante()));
+            ps.setString(4, adotante.getCep());
+            ps.setString(5, adotante.getEndereco());
+            ps.setString(6, adotante.getBairro());
+            ps.setString(7, adotante.getCidade());
+            ps.setString(8, adotante.getUf());
+            ps.setString(9, adotante.getCpf());
+            ps.setString(10, adotante.getRg());
+            ps.setString(11, Sanitize.sanitizar(adotante.getSexo()));
+            ps.setString(12, adotante.getEmail());
+            ps.setString(13, Integer.toString(adotante.getCodAdotante()));
             if (ps.executeUpdate() > 0) {
                 System.out.println("Atualizado com sucesso!");
             }
@@ -112,6 +114,7 @@ public class AdotantesDAO {
                     adotantesBean.setNome(rs.getString("Nome"));
                     adotantesBean.setTelefone(rs.getString("Telefone"));
                     adotantesBean.setCelular(rs.getString("Celular"));
+                    adotantesBean.setCep(rs.getString("CEP"));
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
@@ -148,6 +151,7 @@ public class AdotantesDAO {
                     adotantesBean.setNome(rs.getString("Nome"));
                     adotantesBean.setTelefone(rs.getString("Telefone"));
                     adotantesBean.setCelular(rs.getString("Celular"));
+                    adotantesBean.setCep(rs.getString("CEP"));
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
@@ -184,6 +188,7 @@ public class AdotantesDAO {
                     adotantesBean.setNome(rs.getString("Nome"));
                     adotantesBean.setTelefone(rs.getString("Telefone"));
                     adotantesBean.setCelular(rs.getString("Celular"));
+                    adotantesBean.setCep(rs.getString("CEP"));
                     adotantesBean.setEndereco(rs.getString("Endereco"));
                     adotantesBean.setBairro(rs.getString("Bairro"));
                     adotantesBean.setCidade(rs.getString("Cidade"));
