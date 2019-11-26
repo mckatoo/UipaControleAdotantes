@@ -10,13 +10,22 @@ import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.json.JSONException;
+import org.json.JSONObject;
 import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
+import uipacontroleadotantes.servicos.CEPAberto.Api;
+import uipacontroleadotantes.servicos.correios.Correios;
+import uipacontroleadotantes.servicos.correios.EnderecoERP;
+import uipacontroleadotantes.servicos.correios.SQLException_Exception;
+import uipacontroleadotantes.servicos.correios.SigepClienteException;
 import uipacontroleadotantes.servicos.viacep.ViaCEP;
 import uipacontroleadotantes.servicos.viacep.ViaCEPException;
 import uipacontroleadotantes.uteis.Validador;
@@ -125,6 +134,17 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
                 txtCEPFocusLost(evt);
             }
         });
+        txtCEP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCEPKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCEPKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCEPKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("Endereço:");
 
@@ -194,20 +214,16 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(44, 44, 44)
-                        .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel10))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbUF, 0, 1, Short.MAX_VALUE)
-                            .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbSexo, 0, 195, Short.MAX_VALUE))))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbUF, 0, 1, Short.MAX_VALUE)
+                    .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbSexo, 0, 195, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
@@ -595,22 +611,70 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
+    private void txtCEPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCEPKeyReleased
+
+    }//GEN-LAST:event_txtCEPKeyReleased
+
+    private void txtCEPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCEPKeyPressed
+
+    }//GEN-LAST:event_txtCEPKeyPressed
+
+    private void txtCEPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCEPKeyTyped
+        char caracter = evt.getKeyChar();
+        if (!Character.isLetterOrDigit(caracter)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCEPKeyTyped
+
     private void txtCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCEPFocusLost
         try {
-            ViaCEP viaCep = new ViaCEP();
-            viaCep.buscar(txtCEP.getText());
-            txtEndereco.setText(viaCep.getLogradouro() + ", ");
-            txtBairro.setText(viaCep.getBairro());
-            txtCidade.setText(viaCep.getLocalidade());
-            if (viaCep.getUf() != null) {
+            EnderecoERP result = Correios.consultaCEP(txtCEP.getText());
+            txtEndereco.setText(result.getEnd() + ", ");
+            txtBairro.setText(result.getBairro());
+            txtCidade.setText(result.getCidade());
+            if (result.getUf() != null) {
                 for (int i = 0; i < cbUF.getItemCount(); i++) {
-                    if (cbUF.getItemAt(i).split(" - ")[0].equals(viaCep.getUf())) {
+                    if (cbUF.getItemAt(i).split(" - ")[0].equals(result.getUf())) {
                         cbUF.setSelectedIndex(i);
                     }
                 }
             }
-        } catch (ViaCEPException ex) {
-            Logger.getLogger(AdotantesCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SigepClienteException | SQLException_Exception ex) {
+            System.out.println("ERRO AO TENTAR PESQUISAR NO CORREIOS: " + ex.getMessage() + "\nPESQUISANDO NO ViaCEP...");
+            try {
+                ViaCEP viaCep = new ViaCEP();
+                viaCep.buscar(txtCEP.getText());
+                txtEndereco.setText(viaCep.getLogradouro() + ", ");
+                txtBairro.setText(viaCep.getBairro());
+                txtCidade.setText(viaCep.getLocalidade());
+                if (viaCep.getUf() != null) {
+                    for (int i = 0; i < cbUF.getItemCount(); i++) {
+                        if (cbUF.getItemAt(i).split(" - ")[0].equals(viaCep.getUf())) {
+                            cbUF.setSelectedIndex(i);
+                        }
+                    }
+                }
+            } catch (ViaCEPException ex1) {
+                System.out.println("ERRO AO PESQUISAR NO ViaCEP: " + ex.getMessage() + "\nPESQUISANDO NO CEPABERTO...");
+                try {
+                    JSONObject cep = Api.getCep(txtCEP.getText());
+                    txtEndereco.setText(cep.getString("logradouro") + ", ");
+                    txtBairro.setText(cep.getString("bairro"));
+                    JSONObject cidade = cep.getJSONObject("cidade");
+                    txtCidade.setText(cidade.getString("nome"));
+                    JSONObject estado = cep.getJSONObject("estado");
+                    if (estado.getString("sigla") != null) {
+                        for (int i = 0; i < cbUF.getItemCount(); i++) {
+                            if (cbUF.getItemAt(i).split(" - ")[0].equals(estado.getString("sigla"))) {
+                                cbUF.setSelectedIndex(i);
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    System.out.println("ERRO AO PESQUISAR NO CEPABERTO: " + e.getMessage());
+                }
+
+            }
         }
     }//GEN-LAST:event_txtCEPFocusLost
 
