@@ -21,6 +21,6 @@
 - [ ] Vacinados
 - [ ] Níveis de acesso adm, consulta, operação.
 
-## Executavel JAR
+## Executável JAR
 [UIPA-CONTROLE_ADOTANTES.jar](https://github.com/mckatoo/UipaControleAdotantes/blob/master/store/UIPA-CONTROLE_ADOTANTES.jar)
 
