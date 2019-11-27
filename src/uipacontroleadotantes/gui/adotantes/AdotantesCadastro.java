@@ -5,29 +5,20 @@
  */
 package uipacontroleadotantes.gui.adotantes;
 
+import cep.CEPBean;
+import cep.Cep;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import org.json.JSONException;
-import org.json.JSONObject;
 import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
-import uipacontroleadotantes.servicos.CEPAberto.Api;
-import uipacontroleadotantes.servicos.correios.Correios;
-import uipacontroleadotantes.servicos.correios.EnderecoERP;
-import uipacontroleadotantes.servicos.correios.SQLException_Exception;
-import uipacontroleadotantes.servicos.correios.SigepClienteException;
-import uipacontroleadotantes.servicos.viacep.ViaCEP;
-import uipacontroleadotantes.servicos.viacep.ViaCEPException;
 import uipacontroleadotantes.uteis.Validador;
 
 /**
@@ -627,55 +618,19 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCEPKeyTyped
 
     private void txtCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCEPFocusLost
-        try {
-            EnderecoERP result = Correios.consultaCEP(txtCEP.getText());
-            txtEndereco.setText(result.getEnd() + ", ");
-            txtBairro.setText(result.getBairro());
-            txtCidade.setText(result.getCidade());
-            if (result.getUf() != null) {
+
+        CEPBean cep = new CEPBean();
+        cep = Cep.consultaCEP(txtCEP.getText());
+        txtEndereco.setText(cep.getEndereco() + ", ");
+        txtBairro.setText(cep.getBairro());
+        txtCidade.setText(cep.getCidade());
+        if (cep.getUf() != null) {
                 for (int i = 0; i < cbUF.getItemCount(); i++) {
-                    if (cbUF.getItemAt(i).split(" - ")[0].equals(result.getUf())) {
+                    if (cbUF.getItemAt(i).split(" - ")[0].equals(cep.getUf())) {
                         cbUF.setSelectedIndex(i);
                     }
                 }
-            }
-        } catch (SigepClienteException | SQLException_Exception ex) {
-            System.out.println("ERRO AO TENTAR PESQUISAR NO CORREIOS: " + ex.getMessage() + "\nPESQUISANDO NO ViaCEP...");
-            try {
-                ViaCEP viaCep = new ViaCEP();
-                viaCep.buscar(txtCEP.getText());
-                txtEndereco.setText(viaCep.getLogradouro() + ", ");
-                txtBairro.setText(viaCep.getBairro());
-                txtCidade.setText(viaCep.getLocalidade());
-                if (viaCep.getUf() != null) {
-                    for (int i = 0; i < cbUF.getItemCount(); i++) {
-                        if (cbUF.getItemAt(i).split(" - ")[0].equals(viaCep.getUf())) {
-                            cbUF.setSelectedIndex(i);
-                        }
-                    }
-                }
-            } catch (ViaCEPException ex1) {
-                System.out.println("ERRO AO PESQUISAR NO ViaCEP: " + ex.getMessage() + "\nPESQUISANDO NO CEPABERTO...");
-                try {
-                    JSONObject cep = Api.getCep(txtCEP.getText());
-                    txtEndereco.setText(cep.getString("logradouro") + ", ");
-                    txtBairro.setText(cep.getString("bairro"));
-                    JSONObject cidade = cep.getJSONObject("cidade");
-                    txtCidade.setText(cidade.getString("nome"));
-                    JSONObject estado = cep.getJSONObject("estado");
-                    if (estado.getString("sigla") != null) {
-                        for (int i = 0; i < cbUF.getItemCount(); i++) {
-                            if (cbUF.getItemAt(i).split(" - ")[0].equals(estado.getString("sigla"))) {
-                                cbUF.setSelectedIndex(i);
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    System.out.println("ERRO AO PESQUISAR NO CEPABERTO: " + e.getMessage());
-                }
-
-            }
-        }
+            }        
     }//GEN-LAST:event_txtCEPFocusLost
 
 
