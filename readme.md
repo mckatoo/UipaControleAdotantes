@@ -12,6 +12,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/mckatoo/UipaControleAdotantes)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mckatoo/UipaControleAdotantes)
 ![GitHub contributors](https://img.shields.io/github/contributors/mckatoo/UipaControleAdotantes)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mckatoo/UipaControleAdotantes)
 
 ## Funcionalidades
 - [X] Controle de Animais
