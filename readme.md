@@ -9,7 +9,7 @@
 ![GitHub forks](https://img.shields.io/github/forks/mckatoo/UipaControleAdotantes) 
 ![GitHub stars](https://img.shields.io/github/stars/mckatoo/UipaControleAdotantes) 
 ![GitHub watchers](https://img.shields.io/github/watchers/mckatoo/UipaControleAdotantes) 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/mckatoo/UipaControleAdotantes)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/mckatoo/UipaControleAdotantes)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mckatoo/UipaControleAdotantes)
 ![GitHub contributors](https://img.shields.io/github/contributors/mckatoo/UipaControleAdotantes)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mckatoo/UipaControleAdotantes)
