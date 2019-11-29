@@ -6,10 +6,14 @@
 package uipacontroleadotantes.gui.adotantes;
 
 import cep.CEPBean;
-import cep.Cep;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -17,8 +21,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.json.JSONException;
 import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
+import uipacontroleadotantes.gui.Loading;
 import uipacontroleadotantes.uteis.Validador;
 
 /**
@@ -618,19 +624,27 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCEPKeyTyped
 
     private void txtCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCEPFocusLost
-
-        CEPBean cep = new CEPBean();
-        cep = Cep.consultaCEP(txtCEP.getText());
-        txtEndereco.setText(cep.getEndereco() + ", ");
-        txtBairro.setText(cep.getBairro());
-        txtCidade.setText(cep.getCidade());
-        if (cep.getUf() != null) {
-                for (int i = 0; i < cbUF.getItemCount(); i++) {
-                    if (cbUF.getItemAt(i).split(" - ")[0].equals(cep.getUf())) {
-                        cbUF.setSelectedIndex(i);
+        Future<CEPBean> futureCep = uipacontroleadotantes.uteis.Cep.consultaCepAsync(txtCEP.getText());
+        Loading loading = new Loading();
+        CompletableFuture.runAsync(() -> {
+            try {
+                CEPBean cep = futureCep.get(10, TimeUnit.SECONDS);
+                txtBairro.setText(cep.getBairro());
+                txtCidade.setText(cep.getCidade());
+                if (cep.getUf() != null) {
+                    for (int i = 0; i < cbUF.getItemCount(); i++) {
+                        if (cbUF.getItemAt(i).split(" - ")[0].equals(cep.getUf())) {
+                            cbUF.setSelectedIndex(i);
+                        }
                     }
                 }
-            }        
+                txtEndereco.setText(cep.getEndereco() + ", ");
+                txtEndereco.requestFocus();
+                loading.dispose();
+            } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                Logger.getLogger(AdotantesCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }//GEN-LAST:event_txtCEPFocusLost
 
 

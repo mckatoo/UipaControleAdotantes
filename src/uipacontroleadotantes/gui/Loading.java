@@ -6,7 +6,6 @@
 package uipacontroleadotantes.gui;
 
 import java.awt.Color;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -19,9 +18,13 @@ public class Loading extends javax.swing.JFrame {
      */
     public Loading() {
         initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/logo.jpg")).getImage());
-        setVisible(true);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/logo.jpg")).getImage());
+        int x = (getWidth() / 2) - (lblLoading.getWidth() / 2);
+        int y = (getHeight() / 2) - (lblLoading.getHeight() / 2);
+        lblLoading.setLocation(x, y);
+        setAlwaysOnTop(true);
         setBackground(new Color(0,0,0,0));
+        setVisible(true);
     }
 
     /**
@@ -33,24 +36,18 @@ public class Loading extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imagem = new javax.swing.JLabel();
-        fundo = new javax.swing.JLabel();
+        lblLoading = new javax.swing.JLabel();
+        lblFundo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
-        setAutoRequestFocus(false);
-        setFocusCycleRoot(false);
-        setFocusable(false);
-        setFocusableWindowState(false);
         setUndecorated(true);
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/480.gif"))); // NOI18N
-        getContentPane().add(imagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        lblLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/480.gif"))); // NOI18N
+        getContentPane().add(lblLoading, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
-        fundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/fundo-redondo.png"))); // NOI18N
-        getContentPane().add(fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblFundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/fundo-redondo.png"))); // NOI18N
+        getContentPane().add(lblFundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 170));
 
         pack();
         setLocationRelativeTo(null);
@@ -72,11 +69,15 @@ public class Loading extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Loading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Loading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Loading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Loading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        
         //</editor-fold>
 
         /* Create and display the form */
@@ -88,7 +89,7 @@ public class Loading extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel fundo;
-    private javax.swing.JLabel imagem;
+    private javax.swing.JLabel lblFundo;
+    private javax.swing.JLabel lblLoading;
     // End of variables declaration//GEN-END:variables
 }

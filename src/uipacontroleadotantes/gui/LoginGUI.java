@@ -8,6 +8,7 @@ package uipacontroleadotantes.gui;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -167,55 +168,52 @@ public class LoginGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        this.dispose();
+        dispose();
+        final Loading loading = new Loading();
+        CompletableFuture.runAsync(() -> {
+            final LoginGUI loginGUI = this;
+            Point p = this.getLocation();
 
-        Loading loading = new Loading();
-        PrincipalGUI principal = new PrincipalGUI();
-        LoginGUI loginGUI = this;
-        Point p = this.getLocation();
-        UsuariosDAO usuariosDAO = new UsuariosDAO();
-        String senha = Sanitize.sanitizar(txtSenha.getPassword());
-        String senhaCriptografada = Seguranca.criptografar(senha);
-        Future<Boolean> future = usuariosDAO.login(txtUsuario.getText(), senhaCriptografada);
-        Boolean permitido = false;
-        try {
-            permitido = future.get(1, TimeUnit.MINUTES);
-        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
-        }
-        if (permitido) {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        sleep(2000);
-                        loading.dispose();
-                        principal.setVisible(true);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }.start();
-        } else {
+            PrincipalGUI principal = new PrincipalGUI();
+            UsuariosDAO usuariosDAO = new UsuariosDAO();
+            String senha = Sanitize.sanitizar(txtSenha.getPassword());
+            String senhaCriptografada = Seguranca.criptografar(senha);
+            Future<Boolean> future = usuariosDAO.login(txtUsuario.getText(), senhaCriptografada);
+            Boolean permitido = false;
+            while (!future.isDone()) {
+                System.out.println("VERIFICANDO CREDÊNCIAIS...");
+            }
+            System.out.println("CREDÊNCIAIS ACEITAS.");
+            try {
+                permitido = future.get(10, TimeUnit.SECONDS);
+            } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
             loading.dispose();
-            loginGUI.setVisible(true);
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        for (int i = 0; i < 3; i++) {
-                            loginGUI.setLocation(p.x - 10, p.y);
-                            sleep(20);
-                            loginGUI.setLocation(p.x + 10, p.y);
-                            sleep(20);
+            if (permitido) {
+                dispose();
+                principal.setVisible(true);
+            } else {
+                loginGUI.setVisible(true);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            for (int i = 0; i < 3; i++) {
+                                loginGUI.setLocation(p.x - 10, p.y);
+                                sleep(20);
+                                loginGUI.setLocation(p.x + 10, p.y);
+                                sleep(20);
+                            }
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-            }.start();
-            JOptionPane.showMessageDialog(null, "USUÁRIO OU SENHA INVÁLIDOS!");
-        }
+                }.start();
+                JOptionPane.showMessageDialog(null, "USUÁRIO OU SENHA INVÁLIDOS!");
+            }
+        });
+
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
