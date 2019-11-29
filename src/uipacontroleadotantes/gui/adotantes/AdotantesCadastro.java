@@ -6,6 +6,7 @@
 package uipacontroleadotantes.gui.adotantes;
 
 import cep.CEPBean;
+import cep.Cep;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
@@ -62,7 +63,6 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCelular = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        txtCEP = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtEndereco = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -79,6 +79,7 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
         cbSexo = new javax.swing.JComboBox<>();
         txtRG = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
+        txtCEP = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
@@ -121,26 +122,6 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
         txtCelular.setNextFocusableComponent(txtCEP);
 
         jLabel12.setText("CEP:");
-
-        txtCEP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        txtCEP.setName("txtCelular"); // NOI18N
-        txtCEP.setNextFocusableComponent(txtEndereco);
-        txtCEP.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCEPFocusLost(evt);
-            }
-        });
-        txtCEP.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCEPKeyTyped(evt);
-            }
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCEPKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtCEPKeyReleased(evt);
-            }
-        });
 
         jLabel4.setText("Endereço:");
 
@@ -203,6 +184,15 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
             }
         });
 
+        txtCEP.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        txtCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("00000000"))));
+        txtCEP.setNextFocusableComponent(txtEndereco);
+        txtCEP.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCEPFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -227,30 +217,29 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel12)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtBairro, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(txtRG))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel6))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtCPF)
-                                .addComponent(txtCidade))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCEP, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtBairro, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(txtRG))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCPF, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(txtCidade)))
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13))
         );
@@ -607,43 +596,30 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void txtCEPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCEPKeyReleased
-
-    }//GEN-LAST:event_txtCEPKeyReleased
-
-    private void txtCEPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCEPKeyPressed
-
-    }//GEN-LAST:event_txtCEPKeyPressed
-
-    private void txtCEPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCEPKeyTyped
-        char caracter = evt.getKeyChar();
-        if (!Character.isLetterOrDigit(caracter)) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtCEPKeyTyped
-
     private void txtCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCEPFocusLost
-        Future<CEPBean> futureCep = uipacontroleadotantes.uteis.Cep.consultaCepAsync(txtCEP.getText());
-        Loading loading = new Loading();
-        CompletableFuture.runAsync(() -> {
-            try {
-                CEPBean cep = futureCep.get(10, TimeUnit.SECONDS);
-                txtBairro.setText(cep.getBairro());
-                txtCidade.setText(cep.getCidade());
-                if (cep.getUf() != null) {
-                    for (int i = 0; i < cbUF.getItemCount(); i++) {
-                        if (cbUF.getItemAt(i).split(" - ")[0].equals(cep.getUf())) {
-                            cbUF.setSelectedIndex(i);
+        if (txtCEP.isValid() || !txtCEP.getText().isEmpty()) {
+            Future<CEPBean> futureCep = Cep.consultaCEPasync(txtCEP.getText());
+            Loading loading = new Loading();
+            CompletableFuture.runAsync(() -> {
+                try {
+                    CEPBean cep = futureCep.get(10, TimeUnit.SECONDS);
+                    txtBairro.setText(cep.getBairro());
+                    txtCidade.setText(cep.getCidade());
+                    if (cep.getUf() != null) {
+                        for (int i = 0; i < cbUF.getItemCount(); i++) {
+                            if (cbUF.getItemAt(i).split(" - ")[0].equals(cep.getUf())) {
+                                cbUF.setSelectedIndex(i);
+                            }
                         }
                     }
+                    txtEndereco.setText(cep.getEndereco() + ", ");
+                    txtEndereco.requestFocus();
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    Logger.getLogger(AdotantesCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                txtEndereco.setText(cep.getEndereco() + ", ");
-                txtEndereco.requestFocus();
-                loading.dispose();
-            } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                Logger.getLogger(AdotantesCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+            });
+            loading.dispose();
+        }
     }//GEN-LAST:event_txtCEPFocusLost
 
 
@@ -672,7 +648,7 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAdotantes;
     private javax.swing.JTextField txtBairro;
-    private javax.swing.JTextField txtCEP;
+    private javax.swing.JFormattedTextField txtCEP;
     private javax.swing.JFormattedTextField txtCPF;
     private javax.swing.JTextField txtCelular;
     private javax.swing.JTextField txtCidade;
