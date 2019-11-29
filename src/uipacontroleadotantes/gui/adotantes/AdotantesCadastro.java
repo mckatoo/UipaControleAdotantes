@@ -21,7 +21,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import org.json.JSONException;
 import uipacontroleadotantes.banco.adotantes.AdotantesBean;
 import uipacontroleadotantes.banco.adotantes.AdotantesDAO;
 import uipacontroleadotantes.gui.Loading;
