@@ -598,8 +598,9 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
 
     private void txtCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCEPFocusLost
         if (txtCEP.isValid() || !txtCEP.getText().isEmpty()) {
+            final Loading loading = new Loading();
+
             Future<CEPBean> futureCep = Cep.consultaCEPasync(txtCEP.getText());
-            Loading loading = new Loading();
             CompletableFuture.runAsync(() -> {
                 try {
                     CEPBean cep = futureCep.get(10, TimeUnit.SECONDS);
@@ -617,8 +618,8 @@ public class AdotantesCadastro extends javax.swing.JInternalFrame {
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
                     Logger.getLogger(AdotantesCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            });
             loading.dispose();
+            });
         }
     }//GEN-LAST:event_txtCEPFocusLost
 

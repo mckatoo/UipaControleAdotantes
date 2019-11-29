@@ -170,6 +170,7 @@ public class LoginGUI extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         dispose();
         final Loading loading = new Loading();
+        
         CompletableFuture.runAsync(() -> {
             final LoginGUI loginGUI = this;
             Point p = this.getLocation();
