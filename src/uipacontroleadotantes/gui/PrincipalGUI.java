@@ -6,6 +6,7 @@
 package uipacontroleadotantes.gui;
 
 import java.awt.Point;
+import java.util.concurrent.CompletableFuture;
 import javax.swing.JInternalFrame;
 import uipacontroleadotantes.gui.adotantes.AdotantesCadastro;
 import uipacontroleadotantes.gui.animais.AnimaisCadastro;
@@ -205,36 +206,51 @@ public class PrincipalGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        if (adotantesCadastro == null) {
-            adotantesCadastro = new AdotantesCadastro();
-            jDesktopPane.add(adotantesCadastro);
-        }
-        if (!adotantesCadastro.isVisible()) {
-            adotantesCadastro.setVisible(true);
-        }
-        adotantesCadastro.toFront();
+        final Loading loading = new Loading();
+
+        CompletableFuture.runAsync(() -> {
+            if (adotantesCadastro == null) {
+                adotantesCadastro = new AdotantesCadastro();
+                jDesktopPane.add(adotantesCadastro);
+            }
+            if (!adotantesCadastro.isVisible()) {
+                adotantesCadastro.setVisible(true);
+            }
+            loading.dispose();
+            adotantesCadastro.toFront();
+        });
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        if (usuariosCadastro == null) {
-            usuariosCadastro = new UsuariosCadastro();
-            jDesktopPane.add(usuariosCadastro);
-        }
-        if (!usuariosCadastro.isVisible()) {
-            usuariosCadastro.setVisible(true);
-        }
-        usuariosCadastro.toFront();
+        final Loading loading = new Loading();
+
+        CompletableFuture.runAsync(() -> {
+            if (usuariosCadastro == null) {
+                usuariosCadastro = new UsuariosCadastro();
+                jDesktopPane.add(usuariosCadastro);
+            }
+            if (!usuariosCadastro.isVisible()) {
+                usuariosCadastro.setVisible(true);
+            }
+            loading.dispose();
+            usuariosCadastro.toFront();
+        });
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        if (animaisCadastro == null) {
-            animaisCadastro = new AnimaisCadastro();
-            jDesktopPane.add(animaisCadastro);
-        }
-        if (!animaisCadastro.isVisible()) {
-            animaisCadastro.setVisible(true);
-        }
-        animaisCadastro.toFront();
+        final Loading loading = new Loading();
+
+        CompletableFuture.runAsync(() -> {
+            if (animaisCadastro == null) {
+                animaisCadastro = new AnimaisCadastro();
+                jDesktopPane.add(animaisCadastro);
+            }
+            if (!animaisCadastro.isVisible()) {
+                animaisCadastro.setVisible(true);
+            }
+            loading.dispose();
+            animaisCadastro.toFront();
+        });
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -242,14 +258,19 @@ public class PrincipalGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        if (vacinas == null) {
-            vacinas = new VacinasCadastro();
-            jDesktopPane.add(vacinas);
-        }
-        if (!vacinas.isVisible()) {
-            vacinas.setVisible(true);
-        }
-        vacinas.toFront();
+        final Loading loading = new Loading();
+
+        CompletableFuture.runAsync(() -> {
+            if (vacinas == null) {
+                vacinas = new VacinasCadastro();
+                jDesktopPane.add(vacinas);
+            }
+            if (!vacinas.isVisible()) {
+                vacinas.setVisible(true);
+            }
+            loading.dispose();
+            vacinas.toFront();
+        });
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
