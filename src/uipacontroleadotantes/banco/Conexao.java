@@ -17,7 +17,7 @@ public class Conexao {
     private static String PORTA = "9005";
     private static String BANCO = "cc1";
     private static String USER = "mckatoo";
-    private static String PASS = "zicasp2";
+    private static String PASS = "123456";
 
     public static String getHOST() {
         return HOST;

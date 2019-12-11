@@ -5,6 +5,7 @@
  */
 package uipacontroleadotantes.gui;
 
+import java.awt.Point;
 import javax.swing.JInternalFrame;
 import uipacontroleadotantes.gui.adotantes.AdotantesCadastro;
 import uipacontroleadotantes.gui.animais.AnimaisCadastro;
@@ -20,6 +21,11 @@ public class PrincipalGUI extends javax.swing.JFrame {
     /**
      * Creates new form PrincipalGUI
      */
+    private AdotantesCadastro adotantesCadastro;
+    private UsuariosCadastro usuariosCadastro;
+    private AnimaisCadastro animaisCadastro;
+    private VacinasCadastro vacinas;
+
     public PrincipalGUI() {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/logo.jpg")).getImage());
@@ -50,6 +56,8 @@ public class PrincipalGUI extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -147,7 +155,28 @@ public class PrincipalGUI extends javax.swing.JFrame {
         jMenu6.setText("Janelas");
 
         jMenuItem5.setText("Fechar todas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem5);
+
+        jMenuItem8.setText("Em Cascata");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem8);
+
+        jMenuItem9.setText("Lado a Lado");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem9);
 
         jMenuBar1.add(jMenu6);
 
@@ -176,44 +205,82 @@ public class PrincipalGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        AdotantesCadastro adotantesCadastro = null;
         if (adotantesCadastro == null) {
             adotantesCadastro = new AdotantesCadastro();
             jDesktopPane.add(adotantesCadastro);
         }
-        adotantesCadastro.setVisible(true);
+        if (!adotantesCadastro.isVisible()) {
+            adotantesCadastro.setVisible(true);
+        }
+        adotantesCadastro.toFront();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        UsuariosCadastro usuariosCadastro = null;
         if (usuariosCadastro == null) {
             usuariosCadastro = new UsuariosCadastro();
             jDesktopPane.add(usuariosCadastro);
         }
-        usuariosCadastro.setVisible(true);
+        if (!usuariosCadastro.isVisible()) {
+            usuariosCadastro.setVisible(true);
+        }
+        usuariosCadastro.toFront();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        AnimaisCadastro animaisCadastro = null;
         if (animaisCadastro == null) {
             animaisCadastro = new AnimaisCadastro();
             jDesktopPane.add(animaisCadastro);
         }
-        animaisCadastro.setVisible(true);
+        if (!animaisCadastro.isVisible()) {
+            animaisCadastro.setVisible(true);
+        }
+        animaisCadastro.toFront();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        
+
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        VacinasCadastro vacinas = null;
         if (vacinas == null) {
             vacinas = new VacinasCadastro();
             jDesktopPane.add(vacinas);
         }
-        vacinas.setVisible(true);
+        if (!vacinas.isVisible()) {
+            vacinas.setVisible(true);
+        }
+        vacinas.toFront();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        for (JInternalFrame frame : jDesktopPane.getAllFrames()) {
+            frame.setVisible(false);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        int x = 0;
+        int y = 0;
+        for (JInternalFrame frame : jDesktopPane.getAllFrames()) {
+            frame.setLocation(x, y);
+            x = x + 20;
+            y = y + 20;
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        int x = 0;
+        int y = 0;
+        for (JInternalFrame frame : jDesktopPane.getAllFrames()) {
+            frame.setLocation(x, y);
+            if (jDesktopPane.getWidth() > (x + frame.getWidth())) {
+                x = frame.getWidth() + 1;
+            } else {
+                x = 0;
+                y = frame.getHeight() + 1;
+            }
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,13 +328,8 @@ public class PrincipalGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 
-    private void abrirJInternalFrame(JInternalFrame frame) {
-        if (frame == null) {
-            frame = new JInternalFrame();
-            jDesktopPane.add(frame);
-        }
-        frame.setVisible(true);
-    }
 }
