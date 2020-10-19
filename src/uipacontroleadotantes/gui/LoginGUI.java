@@ -8,6 +8,7 @@ package uipacontroleadotantes.gui;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import uipacontroleadotantes.banco.usuarios.UsuariosBean;
 import uipacontroleadotantes.banco.usuarios.UsuariosDAO;
 import uipacontroleadotantes.uteis.Sanitize;
 import uipacontroleadotantes.uteis.Seguranca;
@@ -170,13 +172,25 @@ public class LoginGUI extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         dispose();
         final Loading loading = new Loading();
-        
+
         CompletableFuture.runAsync(() -> {
             final LoginGUI loginGUI = this;
             Point p = this.getLocation();
 
             PrincipalGUI principal = new PrincipalGUI();
             UsuariosDAO usuariosDAO = new UsuariosDAO();
+            
+            if (usuariosDAO.count() == 0) {
+                UsuariosBean usuarioBean = new UsuariosBean();
+                usuarioBean.setLogin("uipa");
+                usuarioBean.setSenha("uipa");
+                try {
+                    usuariosDAO.inserir(usuarioBean);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             String senha = Sanitize.sanitizar(txtSenha.getPassword());
             String senhaCriptografada = Seguranca.criptografar(senha);
             Future<Boolean> future = usuariosDAO.login(txtUsuario.getText(), senhaCriptografada);

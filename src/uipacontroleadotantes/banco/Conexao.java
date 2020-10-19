@@ -65,7 +65,8 @@ public class Conexao {
         try {
             con = DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException e) {
-            HOST = "10.201.84.10";
+            HOST = "10.201.84.200";
+            PORTA = "3306";
             URL = "jdbc:mysql://" + HOST + ":" + PORTA + "/" + BANCO;
             try {
                 con = DriverManager.getConnection(URL, USER, PASS);
