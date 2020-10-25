@@ -31,15 +31,16 @@ public class LoginGUI extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    final private BioGUI bioGui = new BioGUI();
     public LoginGUI() {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/logo.jpg")).getImage());
         this.setLocationRelativeTo(null);
-        Color color = new Color(238, 238, 238, 250);
-        userIcon.setLocation((this.getWidth() / 2) - (userIcon.getWidth() / 2), 30);
-        jPanel1.setBackground(color);
-        jPanel1.setLocation((this.getWidth() / 2) - (jPanel1.getWidth() / 2), 250);
-        btnFechar.setLocation(this.getWidth() - btnFechar.getWidth() - 10, 10);
+//        Color color = new Color(238, 238, 238, 250);
+//        userIcon.setLocation((this.getWidth() / 2) - (userIcon.getWidth() / 2), 30);
+//        jPanel1.setBackground(color);
+//        jPanel1.setLocation((this.getWidth() / 2) - (jPanel1.getWidth() / 2), 250);
+//        btnFechar.setLocation(this.getWidth() - btnFechar.getWidth() - 10, 10);
     }
 
     /**
@@ -59,15 +60,17 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
         txtSenha = new javax.swing.JPasswordField();
+        cbBio = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UIPA - Controle de Adotantes");
         setFont(new java.awt.Font("aakar", 0, 10)); // NOI18N
-        setMinimumSize(new java.awt.Dimension(400, 410));
+        setMinimumSize(new java.awt.Dimension(350, 400));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(350, 400));
         setResizable(false);
-        setSize(new java.awt.Dimension(400, 410));
+        setSize(new java.awt.Dimension(350, 400));
         getContentPane().setLayout(null);
 
         btnFechar.setBackground(new java.awt.Color(255, 51, 51));
@@ -83,13 +86,13 @@ public class LoginGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnFechar);
-        btnFechar.setBounds(630, 10, 30, 30);
+        btnFechar.setBounds(310, 10, 30, 30);
 
         userIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/user-branco.png"))); // NOI18N
         userIcon.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         userIcon.setIconTextGap(0);
         getContentPane().add(userIcon);
-        userIcon.setBounds(250, 50, 150, 130);
+        userIcon.setBounds(110, 50, 150, 130);
 
         jLabel2.setText("Usuário:");
 
@@ -107,6 +110,7 @@ public class LoginGUI extends javax.swing.JFrame {
         btnEntrar.setForeground(new java.awt.Color(255, 255, 255));
         btnEntrar.setText("Entrar");
         btnEntrar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 1, true));
+        btnEntrar.setEnabled(false);
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntrarActionPerformed(evt);
@@ -125,22 +129,32 @@ public class LoginGUI extends javax.swing.JFrame {
             }
         });
 
+        cbBio.setText("Entar usando Biometria");
+        cbBio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbBioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEntrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsuario)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))))
+                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cbBio)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -156,15 +170,17 @@ public class LoginGUI extends javax.swing.JFrame {
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(cbBio)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(130, 150, 310, 130);
+        jPanel1.setBounds(10, 210, 330, 180);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uipacontroleadotantes/assets/fundo.png"))); // NOI18N
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 674, 460);
+        jLabel1.setBounds(0, 0, 350, 400);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,7 +195,7 @@ public class LoginGUI extends javax.swing.JFrame {
 
             PrincipalGUI principal = new PrincipalGUI();
             UsuariosDAO usuariosDAO = new UsuariosDAO();
-            
+
             if (usuariosDAO.count() == 0) {
                 UsuariosBean usuarioBean = new UsuariosBean();
                 usuarioBean.setLogin("uipa");
@@ -190,7 +206,7 @@ public class LoginGUI extends javax.swing.JFrame {
                     Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             String senha = Sanitize.sanitizar(txtSenha.getPassword());
             String senhaCriptografada = Seguranca.criptografar(senha);
             Future<Boolean> future = usuariosDAO.login(txtUsuario.getText(), senhaCriptografada);
@@ -239,6 +255,7 @@ public class LoginGUI extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnEntrar.doClick();
         }
+        filledData();
     }//GEN-LAST:event_txtSenhaKeyReleased
 
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
@@ -249,7 +266,31 @@ public class LoginGUI extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtSenha.requestFocus();
         }
+        filledData();
     }//GEN-LAST:event_txtUsuarioKeyReleased
+
+    private void filledData() {
+        if (txtSenha.getPassword().length > 0 & txtUsuario.getText().length() > 0) {
+            btnEntrar.setEnabled(true);
+            btnEntrar.setEnabled(true);
+        } else {
+            btnEntrar.setEnabled(false);
+            btnEntrar.setEnabled(false);
+        }
+    }
+
+    private void cbBioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBioActionPerformed
+        jLabel2.setEnabled(!cbBio.isSelected());
+        txtUsuario.setEnabled(!cbBio.isSelected());
+        txtUsuario.setEditable(!cbBio.isSelected());
+        jLabel3.setEnabled(!cbBio.isSelected());
+        txtSenha.setEnabled(!cbBio.isSelected());
+        txtSenha.setEditable(!cbBio.isSelected());
+        if (txtUsuario.getText().length() > 0 & txtSenha.getPassword().length > 0) {
+            btnEntrar.setEnabled(!cbBio.isSelected());
+        }
+        bioGui.setVisible(cbBio.isSelected());
+    }//GEN-LAST:event_cbBioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,6 +326,7 @@ public class LoginGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrar;
     private javax.swing.JButton btnFechar;
+    private javax.swing.JCheckBox cbBio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
